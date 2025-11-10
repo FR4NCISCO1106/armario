@@ -8,8 +8,7 @@ session_start();
 <div class="modal fade" id="addadminprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document"> 
     <div class="modal-content">
-      <div class="modal-header bg-success text-white"> 
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-box-open mr-2"></i> Registro de Nuevo Artículo</h5>
+      <div class="modal-header bg-success text-white"> <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-box-open mr-2"></i> Registro de Nuevo Artículo</h5>
         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -18,18 +17,16 @@ session_start();
         
         <div class="modal-body row bg-light p-4"> 
 
-            <div class="col-md-6 pr-4 border-right"> 
-
-                <h5 class="mb-3 text-secondary border-bottom pb-2">Información Básica</h5>
+            <div class="col-md-6 border-right"> <h5 class="mb-3 text-success">Información Básica</h5>
                 
-                <div class="mb-3"> 
-                    <label class="font-weight-bold">ID</label>
-                    <input type="text" name="id" class="form-control border-0 shadow-none" placeholder="ID (ej: 001)" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>ID</label>
+                    <input type="text" name="id" class="form-control" placeholder="ID (ej: 001)" required>
                 </div>
                 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Unidad administrativa</label>
-                    <select name="unidad administrativa" class="form-control border-0 shadow-none" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Unidad administrativa</label>
+                    <select name="unidad administrativa" class="form-control" required>
                         <option value="">Seleccionar unidad...</option>
                         <option value="Unidad A">Unidad A</option>
                         <option value="Unidad B">Unidad B</option>
@@ -37,21 +34,21 @@ session_start();
                     </select>
                 </div>
 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Codigo interno del bien</label>
-                    <input type="text" name="codigo interno del bien" class="form-control border-0 shadow-none" placeholder="Código interno (ej: BIEN123)" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Codigo interno del bien</label>
+                    <input type="text" name="codigo interno del bien" class="form-control" placeholder="Código interno (ej: BIEN123)" required>
                 </div>
 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Descripción</label>
-                    <textarea name="descripcion" class="form-control border-0 shadow-none" placeholder="Descripción del artículo" required></textarea>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Descripción</label>
+                    <textarea name="descripcion" class="form-control" placeholder="Descripción del artículo" required></textarea>
                 </div>
                 
-                <h5 class="mt-4 mb-3 text-secondary border-bottom pb-2">Detalles de Adquisición</h5>
+                <h5 class="mt-4 mb-3 text-success">Detalles de Adquisición</h5>
 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Forma adquisición</label>
-                    <select name="forma adquisicion" class="form-control border-0 shadow-none" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Forma adquisición</label>
+                    <select name="forma adquisicion" class="form-control" required>
                         <option value="">Seleccionar forma...</option>
                         <option value="Compra">Compra</option>
                         <option value="Donación">Donación</option>
@@ -59,29 +56,28 @@ session_start();
                     </select>
                 </div>
                 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Fecha adquisición</label>
-                    <input type="date" name="fecha adquisicion" class="form-control border-0 shadow-none" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Fecha adquisición</label>
+                    <input type="date" name="fecha adquisicion" class="form-control" required>
                 </div>
                 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Valor adquisición</label>
-                    <input type="number" name="valor adquisicion" class="form-control border-0 shadow-none" step="0.01" placeholder="Valor (ej: 1500.00)" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Valor adquisición</label>
+                    <input type="number" name="valor adquisicion" class="form-control" step="0.01" placeholder="Valor (ej: 1500.00)" required>
                 </div>
                 
-                <div class="mb-3">
-                    <label class="font-weight-bold">N° documento</label>
-                    <input type="text" name="n° documento" class="form-control border-0 shadow-none" placeholder="Número de factura/doc." required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>N° documento</label>
+                    <input type="text" name="n° documento" class="form-control" placeholder="Número de factura/doc." required>
                 </div>
             </div>
 
-            <div class="col-md-6 pl-4"> 
+            <div class="col-md-6">
+                <h5 class="mb-3 text-success">Características del Bien</h5>
 
-                <h5 class="mb-3 text-secondary border-bottom pb-2">Características del Bien</h5>
-
-                 <div class="mb-3">
-                    <label class="font-weight-bold">Moneda</label>
-                    <select name="moneda" class="form-control border-0 shadow-none" required>
+                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Moneda</label>
+                    <select name="moneda" class="form-control" required>
                         <option value="">Seleccionar moneda...</option>
                         <option value="USD">Dólar Americano (USD)</option>
                         <option value="EUR">Euro (EUR)</option>
@@ -89,9 +85,9 @@ session_start();
                     </select>
                 </div>
 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Estado del uso del bien</label>
-                    <select name="estado del uso del bien" class="form-control border-0 shadow-none" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Estado del uso del bien</label>
+                    <select name="estado del uso del bien" class="form-control" required>
                         <option value="">Seleccionar estado...</option>
                         <option value="En uso">En uso</option>
                         <option value="Almacenado">Almacenado</option>
@@ -99,9 +95,9 @@ session_start();
                     </select>
                 </div>
 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Condición física</label>
-                    <select name="condicion fisica" class="form-control border-0 shadow-none" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Condición física</label>
+                    <select name="condicion fisica" class="form-control" required>
                         <option value="">Seleccionar condición...</option>
                         <option value="Excelente">Excelente</option>
                         <option value="Buena">Buena</option>
@@ -110,26 +106,26 @@ session_start();
                     </select>
                 </div>
 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Marca</label>
-                    <input type="text" name="marca" class="form-control border-0 shadow-none" placeholder="Marca (ej: Dell, HP)" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Marca</label>
+                    <input type="text" name="marca" class="form-control" placeholder="Marca (ej: Dell, HP)" required>
                 </div>
 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Modelo</label>
-                    <input type="text" name="modelo" class="form-control border-0 shadow-none" placeholder="Modelo (ej: Latitude 5400)" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Modelo</label>
+                    <input type="text" name="modelo" class="form-control" placeholder="Modelo (ej: Latitude 5400)" required>
                 </div>
 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Color</label>
-                    <input type="text" name="color" class="form-control border-0 shadow-none" placeholder="Color (ej: Negro)" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Color</label>
+                    <input type="text" name="color" class="form-control" placeholder="Color (ej: Negro)" required>
                 </div>
                 
-                <h5 class="mt-4 mb-3 text-secondary border-bottom pb-2">Clasificación y Ubicación</h5>
+                <h5 class="mt-4 mb-3 text-success">Clasificación y Ubicación</h5>
 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Categoria general</label>
-                    <select name="categoria general" class="form-control border-0 shadow-none" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Categoria general</label>
+                    <select name="categoria general" class="form-control" required>
                         <option value="">Seleccionar categoría general...</option>
                         <option value="Mobiliario">Mobiliario</option>
                         <option value="Equipo IT">Equipo IT</option>
@@ -137,19 +133,19 @@ session_start();
                     </select>
                 </div>
                 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Subcategoria</label>
-                    <input type="text" name="subcategoria" class="form-control border-0 shadow-none" placeholder="Subcategoría" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Subcategoria</label>
+                    <input type="text" name="subcategoria" class="form-control" placeholder="Subcategoría" required>
                 </div>
                 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Categoria especifica</label>
-                    <input type="text" name="categoria especifica" class="form-control border-0 shadow-none" placeholder="Categoría específica" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Categoria especifica</label>
+                    <input type="text" name="categoria especifica" class="form-control" placeholder="Categoría específica" required>
                 </div>
                 
-                <div class="mb-3">
-                    <label class="font-weight-bold">Sede</label>
-                    <select name="sede" class="form-control border-0 shadow-none" required>
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Sede</label>
+                    <select name="sede" class="form-control" required>
                         <option value="">Seleccionar sede...</option>
                         <option value="Sede Principal">Sede Principal</option>
                         <option value="Sucursal Norte">Sucursal Norte</option>
@@ -168,10 +164,9 @@ session_start();
     </div>
   </div>
 </div>
-
 <div class="container-fluid">
     <div class="card shadaow mb-4">
-      <div class="card-header py-3 bg-success">
+      <div class="card-header py-3">
         <br>
             <form
     class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -186,9 +181,9 @@ session_start();
       </form>
       <br>
       <br>
-        <h6 class="m-0 font-weight-bold text-white" >
+        <h6 class="m-0 font-weight-bold text-success" >
           
-          <button type="button" class="btn btn-light" data-toggle="modal" data-target="#addadminprofile">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addadminprofile">
       Agregar productos de inventario
 </button>
 </h6>
@@ -196,7 +191,7 @@ session_start();
 <div class="card-body">
 
 <?php
-  // Mensajes de sesión (alerta de éxito en verde)
+  // USO DE ALERTAS DE BOOTSTRAP para mensajes (Mejora de estilo)
   if(isset($_SESSION['success']) && $_SESSION['success'] !='' )
   {
     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
