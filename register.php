@@ -6,43 +6,162 @@ session_start();
 
 
 <div class="modal fade" id="addadminprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-xl" role="document"> 
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar datos de administrador</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div class="modal-header bg-success text-white"> 
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-box-open mr-2"></i> Registro de Nuevo Artículo</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <form action="code.php" method="POST">
-
         
+        <div class="modal-body row bg-light p-4"> 
 
-        <div class="modal-body">
+            <div class="col-md-6 pr-4 border-right"> 
 
-            <div class="form-group">
-                <label> Usuario </label>
-                <input type="text" name="username" class="form-control" placeholder="Enter Username">
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control checking_email" placeholder="Enter Email">
-                <small class="error_email" style="color: red;"></small>
-            </div>
-            <div class="form-group">
-                <label>Contraseña</label>
-                <input type="password" name="password" class="form-control" placeholder="Enter Password">
-            </div>
-            <div class="form-group">
-                <label>Confirmar contraseña</label>
-                <input type="password" name="confirmpassword" class="form-control" placeholder="Confirm Password">
+                <h5 class="mb-3 text-secondary border-bottom pb-2">Información Básica</h5>
+                
+                <div class="mb-3"> 
+                    <label class="font-weight-bold">ID</label>
+                    <input type="text" name="id" class="form-control border-0 shadow-none" placeholder="ID (ej: 001)" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="font-weight-bold">Unidad administrativa</label>
+                    <select name="unidad administrativa" class="form-control border-0 shadow-none" required>
+                        <option value="">Seleccionar unidad...</option>
+                        <option value="Unidad A">Unidad A</option>
+                        <option value="Unidad B">Unidad B</option>
+                        <option value="Unidad C">Unidad C</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="font-weight-bold">Codigo interno del bien</label>
+                    <input type="text" name="codigo interno del bien" class="form-control border-0 shadow-none" placeholder="Código interno (ej: BIEN123)" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="font-weight-bold">Descripción</label>
+                    <textarea name="descripcion" class="form-control border-0 shadow-none" placeholder="Descripción del artículo" required></textarea>
+                </div>
+                
+                <h5 class="mt-4 mb-3 text-secondary border-bottom pb-2">Detalles de Adquisición</h5>
+
+                <div class="mb-3">
+                    <label class="font-weight-bold">Forma adquisición</label>
+                    <select name="forma adquisicion" class="form-control border-0 shadow-none" required>
+                        <option value="">Seleccionar forma...</option>
+                        <option value="Compra">Compra</option>
+                        <option value="Donación">Donación</option>
+                        <option value="Arrendamiento">Arrendamiento</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="font-weight-bold">Fecha adquisición</label>
+                    <input type="date" name="fecha adquisicion" class="form-control border-0 shadow-none" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="font-weight-bold">Valor adquisición</label>
+                    <input type="number" name="valor adquisicion" class="form-control border-0 shadow-none" step="0.01" placeholder="Valor (ej: 1500.00)" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="font-weight-bold">N° documento</label>
+                    <input type="text" name="n° documento" class="form-control border-0 shadow-none" placeholder="Número de factura/doc." required>
+                </div>
             </div>
 
+            <div class="col-md-6 pl-4"> 
 
+                <h5 class="mb-3 text-secondary border-bottom pb-2">Características del Bien</h5>
+
+                 <div class="mb-3">
+                    <label class="font-weight-bold">Moneda</label>
+                    <select name="moneda" class="form-control border-0 shadow-none" required>
+                        <option value="">Seleccionar moneda...</option>
+                        <option value="USD">Dólar Americano (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="Local">Moneda Local</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="font-weight-bold">Estado del uso del bien</label>
+                    <select name="estado del uso del bien" class="form-control border-0 shadow-none" required>
+                        <option value="">Seleccionar estado...</option>
+                        <option value="En uso">En uso</option>
+                        <option value="Almacenado">Almacenado</option>
+                        <option value="Baja">En proceso de baja</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="font-weight-bold">Condición física</label>
+                    <select name="condicion fisica" class="form-control border-0 shadow-none" required>
+                        <option value="">Seleccionar condición...</option>
+                        <option value="Excelente">Excelente</option>
+                        <option value="Buena">Buena</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Mala">Mala</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="font-weight-bold">Marca</label>
+                    <input type="text" name="marca" class="form-control border-0 shadow-none" placeholder="Marca (ej: Dell, HP)" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="font-weight-bold">Modelo</label>
+                    <input type="text" name="modelo" class="form-control border-0 shadow-none" placeholder="Modelo (ej: Latitude 5400)" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="font-weight-bold">Color</label>
+                    <input type="text" name="color" class="form-control border-0 shadow-none" placeholder="Color (ej: Negro)" required>
+                </div>
+                
+                <h5 class="mt-4 mb-3 text-secondary border-bottom pb-2">Clasificación y Ubicación</h5>
+
+                <div class="mb-3">
+                    <label class="font-weight-bold">Categoria general</label>
+                    <select name="categoria general" class="form-control border-0 shadow-none" required>
+                        <option value="">Seleccionar categoría general...</option>
+                        <option value="Mobiliario">Mobiliario</option>
+                        <option value="Equipo IT">Equipo IT</option>
+                        <option value="Vehículo">Vehículo</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="font-weight-bold">Subcategoria</label>
+                    <input type="text" name="subcategoria" class="form-control border-0 shadow-none" placeholder="Subcategoría" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="font-weight-bold">Categoria especifica</label>
+                    <input type="text" name="categoria especifica" class="form-control border-0 shadow-none" placeholder="Categoría específica" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="font-weight-bold">Sede</label>
+                    <select name="sede" class="form-control border-0 shadow-none" required>
+                        <option value="">Seleccionar sede...</option>
+                        <option value="Sede Principal">Sede Principal</option>
+                        <option value="Sucursal Norte">Sucursal Norte</option>
+                        <option value="Sucursal Sur">Sucursal Sur</option>
+                    </select>
+                </div>
+            </div>
+            
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" name="registerbtn" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times-circle mr-1"></i> Cerrar</button>
+            <button type="submit" name="registerbtn" class="btn btn-success"><i class="fas fa-plus-circle mr-1"></i> Salvar Artículo</button>
         </div>
       </form>
 
@@ -50,16 +169,16 @@ session_start();
   </div>
 </div>
 
-  <div class="container-fluid">
+<div class="container-fluid">
     <div class="card shadaow mb-4">
-      <div class="card-header py-3">
+      <div class="card-header py-3 bg-success">
         <br>
             <form
     class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
     <div class="input-group">
     <input type="text" name="search_query" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
     <div class="input-group-append">
-    <button class="btn btn-primary" type="submit">
+    <button class="btn btn-success" type="submit">
       <i class="fas fa-search fa-sm"></i>
       </button>
       </div>
@@ -67,9 +186,9 @@ session_start();
       </form>
       <br>
       <br>
-        <h6 class="m-0 font-weight-bold text-primary" >
+        <h6 class="m-0 font-weight-bold text-white" >
           
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile">
+          <button type="button" class="btn btn-light" data-toggle="modal" data-target="#addadminprofile">
       Agregar productos de inventario
 </button>
 </h6>
@@ -77,18 +196,24 @@ session_start();
 <div class="card-body">
 
 <?php
+  // Mensajes de sesión (alerta de éxito en verde)
   if(isset($_SESSION['success']) && $_SESSION['success'] !='' )
   {
-    echo '<h2>'.$_SESSION['success'].'</h2>';
+    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Éxito:</strong> '.$_SESSION['success'].'
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>';
     unset($_SESSION['success']);
   }
 
-    if(isset($_SESSION['status']) && $_SESSION['status'] !='' )
+  if(isset($_SESSION['status']) && $_SESSION['status'] !='' )
   {
-    echo '<h2 class="bg-info">'.$_SESSION['status'].'</h2>';
+    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error:</strong> '.$_SESSION['status'].'
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>';
     unset($_SESSION['status']);
   }
-
 ?>
 
   <div class="table-responsive">
@@ -101,10 +226,15 @@ session_start();
 
     if(isset($_GET['search_query']) && !empty($_GET['search_query'])) {
         $search = mysqli_real_escape_string($connection, $_GET['search_query']); 
+        // Consulta corregida para buscar en campos relevantes del inventario
         $query = "SELECT * FROM register 
-        WHERE username LIKE '%$search%' 
-        OR email LIKE '%$search%' 
-        OR id LIKE '%$search%'"; 
+        WHERE `id` LIKE '%$search%' 
+        OR `unidad administrativa` LIKE '%$search%' 
+        OR `codigo interno del bien` LIKE '%$search%' 
+        OR `descripcion` LIKE '%$search%'
+        OR `marca` LIKE '%$search%'
+        OR `modelo` LIKE '%$search%'
+        OR `categoria general` LIKE '%$search%'"; 
     }
     $query_run = mysqli_query($connection, $query);
     
@@ -151,8 +281,8 @@ session_start();
           <td><?php echo $row['descripcion'];?></td>
           <td><?php echo $row['forma adquisicion'];?></td>
           <td><?php echo $row['fecha adquisicion'];?></td>
-          <td><?php echo $row['n° documento'];?></td>
           <td><?php echo $row['valor adquisicion'];?></td>
+          <td><?php echo $row['n° documento'];?></td>
           <td><?php echo $row['moneda'];?></td>
           <td><?php echo $row['estado del uso del bien'];?></td>
           <td><?php echo $row['condicion fisica'];?></td>
@@ -175,7 +305,7 @@ session_start();
       } 
       else
       {
-        echo "No record Found";
+        echo "<tr><td colspan='20' class='text-center'>No se encontraron registros</td></tr>";
       }
 
         ?>
