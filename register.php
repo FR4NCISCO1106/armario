@@ -26,7 +26,7 @@ session_start();
                 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Unidad administrativa</label>
-                    <select name="unidad administrativa" class="form-control" required>
+                    <select name="unidad_administrativa" class="form-control" required>
                         <option value="">Seleccionar unidad...</option>
                         <option value="Unidad A">Unidad A</option>
                         <option value="Unidad B">Unidad B</option>
@@ -36,7 +36,7 @@ session_start();
 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Codigo interno del bien</label>
-                    <input type="text" name="codigo interno del bien" class="form-control" placeholder="Código interno (ej: BIEN123)" required>
+                    <input type="text" name="codigo_interno_del_bien" class="form-control" placeholder="Código interno (ej: BIEN123)" required>
                 </div>
 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
@@ -48,7 +48,7 @@ session_start();
 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Forma adquisición</label>
-                    <select name="forma adquisicion" class="form-control" required>
+                    <select name="forma_adquisicion" class="form-control" required>
                         <option value="">Seleccionar forma...</option>
                         <option value="Compra">Compra</option>
                         <option value="Donación">Donación</option>
@@ -58,24 +58,24 @@ session_start();
                 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Fecha adquisición</label>
-                    <input type="date" name="fecha adquisicion" class="form-control" required>
+                    <input type="date" name="fecha_adquisicion" class="form-control" required>
                 </div>
                 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Valor adquisición</label>
-                    <input type="number" name="valor adquisicion" class="form-control" step="0.01" placeholder="Valor (ej: 1500.00)" required>
+                    <input type="number" name="valor_adquisicion" class="form-control" step="0.01" placeholder="Valor (ej: 1500.00)" required>
                 </div>
                 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>N° documento</label>
-                    <input type="text" name="n° documento" class="form-control" placeholder="Número de factura/doc." required>
+                    <input type="text" name="n_documento" class="form-control" placeholder="Número de factura/doc." required>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <h5 class="mb-3 text-success">Características del Bien</h5>
 
-                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                  <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Moneda</label>
                     <select name="moneda" class="form-control" required>
                         <option value="">Seleccionar moneda...</option>
@@ -87,7 +87,7 @@ session_start();
 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Estado del uso del bien</label>
-                    <select name="estado del uso del bien" class="form-control" required>
+                    <select name="estado_del_uso_del_bien" class="form-control" required>
                         <option value="">Seleccionar estado...</option>
                         <option value="En uso">En uso</option>
                         <option value="Almacenado">Almacenado</option>
@@ -97,7 +97,7 @@ session_start();
 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Condición física</label>
-                    <select name="condicion fisica" class="form-control" required>
+                    <select name="condicion_fisica" class="form-control" required>
                         <option value="">Seleccionar condición...</option>
                         <option value="Excelente">Excelente</option>
                         <option value="Buena">Buena</option>
@@ -125,7 +125,7 @@ session_start();
 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Categoria general</label>
-                    <select name="categoria general" class="form-control" required>
+                    <select name="categoria_general" class="form-control" required>
                         <option value="">Seleccionar categoría general...</option>
                         <option value="Mobiliario">Mobiliario</option>
                         <option value="Equipo IT">Equipo IT</option>
@@ -140,7 +140,7 @@ session_start();
                 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Categoria especifica</label>
-                    <input type="text" name="categoria especifica" class="form-control" placeholder="Categoría específica" required>
+                    <input type="text" name="categoria_especifica" class="form-control" placeholder="Categoría específica" required>
                 </div>
                 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
@@ -289,7 +289,13 @@ session_start();
           <td><?php echo $row['categoria especifica'];?></td>
           <td><?php echo $row['sede'];?></td>
           <td>
-            <button type="submit" class="btn btn-success btn-sm" >EDITAR</button>
+            <td>
+                  <form action="register_edit.php" method="POST">
+                      <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>"> 
+                      
+                      <button type="submit" name="edit_btn" class="btn btn-success">EDITAR</button>
+                  </form>
+              </td>
           </td>
           <td>
             <button type="submit" class="btn btn-danger btn-sm" >BORRAR</button>
