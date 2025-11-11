@@ -1,10 +1,9 @@
 <?php
   session_start();
   
-  // Conexión a la base de datos
+  // Conexión a la base de datos (CRUCIAL para cargar los datos)
   $connection = mysqli_connect("localhost","root","","adminpanel");
   if (!$connection) {
-      // Usar die() si la conexión falla para detener la ejecución y mostrar el error.
       die("Error de conexión a la base de datos: " . mysqli_connect_error());
   }
 
@@ -189,11 +188,11 @@
                     echo "<h5>ERROR: No se encontró ningún registro con el ID proporcionado.</h5>";
                 }
             }
-            else // <--- BLOQUE QUE MUESTRA EL ERROR QUE VISTE
+            else // ESTE BLOQUE SE MUESTRA SI ACCEDES A LA PÁGINA SIN CLICAR EN EDITAR
             {
                 echo '<div class="alert alert-warning" role="alert">';
                 echo '<h4>Acceso no autorizado o ID de registro faltante.</h4>';
-                echo '<p>Debe acceder a esta página haciendo clic en el botón **"EDITAR"** de la tabla de registros en la página principal (`register.php`).</p>';
+                echo '<p>Debe acceder a esta página haciendo clic en el botón **"EDITAR"** de la tabla de registros en la página principal.</p>';
                 echo '<a href="register.php" class="btn btn-primary mt-3"> Volver a Registros </a>';
                 echo '</div>';
             }

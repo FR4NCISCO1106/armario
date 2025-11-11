@@ -10,6 +10,7 @@ if (!$connection) {
     exit();
 }
 
+// LÓGICA DE REGISTRO (INSERT)
 if(isset($_POST['registerbtn']))
 {
     // Limpieza de datos
@@ -33,7 +34,7 @@ if(isset($_POST['registerbtn']))
     $sede = mysqli_real_escape_string($connection, $_POST['sede'] ?? '');
 
 
-    // Consulta SQL INSERT
+    // Consulta SQL INSERT (usando backticks en columnas con espacios)
     $query = "INSERT INTO register 
     (`id`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, 
     `n° documento`, `valor adquisicion`, `moneda`, `estado del uso del bien`, `condicion fisica`, `marca`, 
@@ -59,27 +60,28 @@ if(isset($_POST['registerbtn']))
 }
 
 
+// LÓGICA DE ACTUALIZACIÓN (UPDATE)
 if(isset($_POST['updatebtn']))
 {
   // Limpieza de datos (usando $_POST['edit_...'])
-  $id = mysqli_real_escape_string($connection, $_POST['edit_id']);
-  $unidad_administrativa = mysqli_real_escape_string($connection, $_POST['edit_unidad_administrativa']);
-  $codigo_interno_del_bien = mysqli_real_escape_string($connection, $_POST['edit_codigo_interno_del_bien']);
-  $descripcion = mysqli_real_escape_string($connection, $_POST['edit_descripcion']);
-  $forma_adquisicion = mysqli_real_escape_string($connection, $_POST['edit_forma_adquisicion']);
-  $fecha_adquisicion = mysqli_real_escape_string($connection, $_POST['edit_fecha_adquisicion']);
-  $n_documento = mysqli_real_escape_string($connection, $_POST['edit_n_documento']);
-  $valor_adquisicion = mysqli_real_escape_string($connection, $_POST['edit_valor_adquisicion']);
-  $moneda = mysqli_real_escape_string($connection, $_POST['edit_moneda']);
-  $estado_del_uso_del_bien = mysqli_real_escape_string($connection, $_POST['edit_estado_del_uso_del_bien']);
-  $condicion_fisica = mysqli_real_escape_string($connection, $_POST['edit_condicion_fisica']);
-  $marca = mysqli_real_escape_string($connection, $_POST['edit_marca']);
-  $modelo = mysqli_real_escape_string($connection, $_POST['edit_modelo']);
-  $color = mysqli_real_escape_string($connection, $_POST['edit_color']);
-  $categoria_general = mysqli_real_escape_string($connection, $_POST['edit_categoria_general']);
-  $subcategoria = mysqli_real_escape_string($connection, $_POST['edit_subcategoria']);
-  $categoria_especifica = mysqli_real_escape_string($connection, $_POST['edit_categoria_especifica']);
-  $sede = mysqli_real_escape_string($connection, $_POST['edit_sede']);
+  $id = mysqli_real_escape_string($connection, $_POST['edit_id'] ?? '');
+  $unidad_administrativa = mysqli_real_escape_string($connection, $_POST['edit_unidad_administrativa'] ?? '');
+  $codigo_interno_del_bien = mysqli_real_escape_string($connection, $_POST['edit_codigo_interno_del_bien'] ?? '');
+  $descripcion = mysqli_real_escape_string($connection, $_POST['edit_descripcion'] ?? '');
+  $forma_adquisicion = mysqli_real_escape_string($connection, $_POST['edit_forma_adquisicion'] ?? '');
+  $fecha_adquisicion = mysqli_real_escape_string($connection, $_POST['edit_fecha_adquisicion'] ?? '');
+  $n_documento = mysqli_real_escape_string($connection, $_POST['edit_n_documento'] ?? '');
+  $valor_adquisicion = mysqli_real_escape_string($connection, $_POST['edit_valor_adquisicion'] ?? '');
+  $moneda = mysqli_real_escape_string($connection, $_POST['edit_moneda'] ?? '');
+  $estado_del_uso_del_bien = mysqli_real_escape_string($connection, $_POST['edit_estado_del_uso_del_bien'] ?? '');
+  $condicion_fisica = mysqli_real_escape_string($connection, $_POST['edit_condicion_fisica'] ?? '');
+  $marca = mysqli_real_escape_string($connection, $_POST['edit_marca'] ?? '');
+  $modelo = mysqli_real_escape_string($connection, $_POST['edit_modelo'] ?? '');
+  $color = mysqli_real_escape_string($connection, $_POST['edit_color'] ?? '');
+  $categoria_general = mysqli_real_escape_string($connection, $_POST['edit_categoria_general'] ?? '');
+  $subcategoria = mysqli_real_escape_string($connection, $_POST['edit_subcategoria'] ?? '');
+  $categoria_especifica = mysqli_real_escape_string($connection, $_POST['edit_categoria_especifica'] ?? '');
+  $sede = mysqli_real_escape_string($connection, $_POST['edit_sede'] ?? '');
   
 
   // Consulta SQL UPDATE (CORREGIDA con backticks y nombres de columna correctos)
@@ -115,5 +117,4 @@ if(isset($_POST['updatebtn']))
     header('Location: register.php');
   }
 }
-
 ?>

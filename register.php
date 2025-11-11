@@ -269,36 +269,38 @@ session_start();
           ?>
 
 
-        <tr>
-          <td><?php echo $row['id'];?></td>
-          <td><?php echo $row['unidad administrativa'];?></td>
-          <td><?php echo $row['codigo interno del bien'];?></td>
-          <td><?php echo $row['descripcion'];?></td>
-          <td><?php echo $row['forma adquisicion'];?></td>
-          <td><?php echo $row['fecha adquisicion'];?></td>
-          <td><?php echo $row['valor adquisicion'];?></td>
-          <td><?php echo $row['n° documento'];?></td>
-          <td><?php echo $row['moneda'];?></td>
-          <td><?php echo $row['estado del uso del bien'];?></td>
-          <td><?php echo $row['condicion fisica'];?></td>
-          <td><?php echo $row['marca'];?></td>
-          <td><?php echo $row['modelo'];?></td>
-          <td><?php echo $row['color'];?></td>
-          <td><?php echo $row['categoria general'];?></td>
-          <td><?php echo $row['subcategoria'];?></td>
-          <td><?php echo $row['categoria especifica'];?></td>
-          <td><?php echo $row['sede'];?></td>
-          <td>
-            <td>
-                  <form action="register_edit.php" method="POST">
-                      <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>"> 
-                      
-                      <button type="submit" name="edit_btn" class="btn btn-success">EDITAR</button>
-                  </form>
-              </td>
+<tr>
+          <td><?php echo $row['id']; ?></td>
+          <td><?php echo $row['unidad administrativa']; ?></td>
+          <td><?php echo $row['codigo interno del bien']; ?></td>
+          <td><?php echo $row['descripcion']; ?></td>
+          <td><?php echo $row['forma adquisicion']; ?></td>
+          <td><?php echo $row['fecha adquisicion']; ?></td>
+          <td><?php echo $row['n° documento']; ?></td>
+          <td><?php echo $row['valor adquisicion']; ?></td>
+          <td><?php echo $row['moneda']; ?></td>
+          <td><?php echo $row['estado del uso del bien']; ?></td>
+          <td><?php echo $row['condicion fisica']; ?></td>
+          <td><?php echo $row['marca']; ?></td>
+          <td><?php echo $row['modelo']; ?></td>
+          <td><?php echo $row['color']; ?></td>
+          <td><?php echo $row['categoria general']; ?></td>
+          <td><?php echo $row['subcategoria']; ?></td>
+          <td><?php echo $row['categoria especifica']; ?></td>
+          <td><?php echo $row['sede']; ?></td>
+
+          <td class="text-center"> 
+            <form action="register_edit.php" method="post">
+              <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
+              <button type="submit" name="edit_btn" class="btn btn-success btn-sm"><i class="fas fa-edit"></i> EDITAR</button>
+            </form>
           </td>
-          <td>
-            <button type="submit" class="btn btn-danger btn-sm" >BORRAR</button>
+
+          <td class="text-center">
+            <form action="code.php" method="post">
+              <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+              <button type="submit" name="delete_btn" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este registro?');"><i class="fas fa-trash-alt"></i> BORRAR</button>
+            </form>
           </td>
         </tr>
       <?php
