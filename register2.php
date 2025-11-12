@@ -269,6 +269,10 @@ session_start();
           <th style="width: 100px;">Subcategoria</th>
           <th style="width: 100px;">Categoria especifica</th>
           <th>Sede</th>
+          <th>Sede</th>
+          <th>Sede</th>
+          <th>Sede</th>
+          <th>Sede</th>
           <th>Editar</th>
           <th>Borrar</th>
         </tr>
