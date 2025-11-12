@@ -34,28 +34,44 @@ if(isset($_POST['registerbtn']))
     $sede = mysqli_real_escape_string($connection, $_POST['sede'] ?? '');
 
 
-    // Consulta SQL INSERT (usando backticks en columnas con espacios)
-    $query = "INSERT INTO register 
-    (`id`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, 
-    `n° documento`, `valor adquisicion`, `moneda`, `estado del uso del bien`, `condicion fisica`, `marca`, 
-    `modelo`, `color`, `categoria general`, `subcategoria`, `categoria especifica`, `sede`) 
-    VALUES 
-    ('$id', '$unidad_administrativa', '$codigo_interno_del_bien', '$descripcion', '$forma_adquisicion', 
-    '$fecha_adquisicion', '$n_documento', '$valor_adquisicion', '$moneda', '$estado_del_uso_del_bien', 
-    '$condicion_fisica', '$marca', '$modelo', '$color', '$categoria_general', '$subcategoria', 
-    '$categoria_especifica', '$sede')";
-    
-    $query_run = mysqli_query($connection, $query);
+    // 1. VERIFICAR DUPLICIDAD DEL ID
+    $check_query = "SELECT id FROM register WHERE id='$id'";
+    $check_run = mysqli_query($connection, $check_query);
 
-    if($query_run)
+    if (mysqli_num_rows($check_run) > 0) {
+        // ID DUPLICADO DETECTADO
+        $_SESSION['status'] = "Error: Ya existe un registro con el ID **{$id}**. Por favor, ingrese uno diferente.";
+        header('Location: register.php');
+        exit();
+    } 
+    // Si no es duplicado, procede al INSERT
+    else 
     {
-      $_SESSION['success'] = "Articulo de inventario añadido con éxito.";
-      header('Location: register.php');
-    }
-    else
-    {
-      $_SESSION['status'] = "Error al añadir el artículo: " . mysqli_error($connection);
-      header('Location: register.php');
+        // Consulta SQL INSERT (usando backticks en columnas con espacios)
+        $query = "INSERT INTO register 
+        (`id`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, 
+        `n° documento`, `valor adquisicion`, `moneda`, `estado del uso del bien`, `condicion fisica`, `marca`, 
+        `modelo`, `color`, `categoria general`, `subcategoria`, `categoria especifica`, `sede`) 
+        VALUES 
+        ('$id', '$unidad_administrativa', '$codigo_interno_del_bien', '$descripcion', '$forma_adquisicion', 
+        '$fecha_adquisicion', '$n_documento', '$valor_adquisicion', '$moneda', '$estado_del_uso_del_bien', 
+        '$condicion_fisica', '$marca', '$modelo', '$color', '$categoria_general', '$subcategoria', 
+        '$categoria_especifica', '$sede')";
+        
+        $query_run = mysqli_query($connection, $query);
+
+        if($query_run)
+        {
+          // Éxito: Añadir (verde)
+          $_SESSION['success'] = "Articulo de inventario añadido con éxito.";
+          header('Location: register.php');
+        }
+        else
+        {
+          // Este ELSE manejará cualquier otro error SQL (ej. error de sintaxis)
+          $_SESSION['status'] = "Error al añadir el artículo: " . mysqli_error($connection);
+          header('Location: register.php');
+        }
     }
 }
 
@@ -109,6 +125,7 @@ if(isset($_POST['updatebtn']))
 
   if($query_run)
   {
+    // Éxito: Actualizar (verde)
     $_SESSION['success'] = "Tus datos se han actualizado.";
     header('Location: register.php');
   }
@@ -116,5 +133,32 @@ if(isset($_POST['updatebtn']))
     $_SESSION['status'] = "Tus datos no están actualizados. Error: " . mysqli_error($connection);
     header('Location: register.php');
   }
+}
+
+// LÓGICA DE BORRADO (DELETE) - ***MODIFICACIÓN AQUÍ***
+if(isset($_POST['delete_btn']))
+{
+    $id = mysqli_real_escape_string($connection, $_POST['delete_id']);
+    
+    $query = "DELETE FROM register WHERE id='$id'";
+    $query_run = mysqli_query($connection, $query);
+
+    if($query_run)
+    {
+        // *** CAMBIO CLAVE: Usar 'delete_success' para el borrado (lo mostrará en azul) ***
+        $_SESSION['delete_success'] = "El registro con ID *{$id}* ha sido eliminado.";
+        header('Location: register.php');
+    }
+    else
+    {
+        $_SESSION['status'] = "Error al intentar eliminar el registro: " . mysqli_error($connection);
+        header('Location: register.php');
+    }
+}
+
+
+if(isset($_POST['delete_btn']))
+{
+
 }
 ?>

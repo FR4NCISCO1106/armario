@@ -192,6 +192,8 @@ session_start();
 
 <?php
   // USO DE ALERTAS DE BOOTSTRAP para mensajes (Mejora de estilo)
+
+  // 1. Alerta de ÉXITO GENERAL (Añadir/Editar) - VERDE ESTÁNDAR (alert-success)
   if(isset($_SESSION['success']) && $_SESSION['success'] !='' )
   {
     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -200,7 +202,18 @@ session_start();
           </div>';
     unset($_SESSION['success']);
   }
+  
+  // 2. Alerta de ÉXITO de BORRADO - AZUL OSCURO (alert-primary)
+  if(isset($_SESSION['delete_success']) && $_SESSION['delete_success'] !='' )
+  {
+    echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <strong>Éxito:</strong> '.$_SESSION['delete_success'].'
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>';
+    unset($_SESSION['delete_success']);
+  }
 
+  // 3. Alerta de ERROR (status) - SE MANTIENE ROJO
   if(isset($_SESSION['status']) && $_SESSION['status'] !='' )
   {
     echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -299,7 +312,7 @@ session_start();
           <td class="text-center">
             <form action="code.php" method="post">
               <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-              <button type="submit" name="delete_btn" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este registro?');"><i class="fas fa-trash-alt"></i> BORRAR</button>
+              <button type="submit" name="delete_btn" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este registro?');"><i class="fas fa-trash-alt"></i>BORRAR</button>
             </form>
           </td>
         </tr>
