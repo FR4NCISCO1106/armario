@@ -43,8 +43,8 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Registrar productos:</h6>
-                <a class="collapse-item" href="register.php">Tabla 1</a>
-                <a class="collapse-item" href="utilities-border.html">Tabla 2</a>
+                <a class="collapse-item" href="register.php">Carga mueble</a>
+                <a class="collapse-item" href="register2.php">Carga vehiculo</a>
             </div>
         </div>
     </li>
