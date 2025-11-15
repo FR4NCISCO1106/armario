@@ -91,7 +91,7 @@ session_start();
                         <option value="">Seleccionar estado...</option>
                         <option value="En uso">En uso</option>
                         <option value="Almacenado">Almacenado</option>
-                        <option value="Baja">En proceso de baja</option>
+                        <option value="En proceso de baja">En proceso de baja</option>
                     </select>
                 </div>
 
@@ -167,27 +167,32 @@ session_start();
 <div class="container-fluid">
     <div class="card shadaow mb-4">
       <div class="card-header py-3">
-        <br>
-            <form
-    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-    <div class="input-group">
-    <input type="text" name="search_query" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-    <div class="input-group-append">
-    <button class="btn btn-success" type="submit">
-      <i class="fas fa-search fa-sm"></i>
-      </button>
-      </div>
-      </div>
-      </form>
-      <br>
-      <br>
-        <h6 class="m-0 font-weight-bold text-success" >
-          
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addadminprofile">
-      Agregar productos de inventario
-</button>
-</h6>
-</div>
+        
+        <div class="d-flex justify-content-between align-items-center mb-3"> 
+            
+            <form action="" method="GET" class="mb-0 w-100 mr-3" style="max-width: 500px;"> 
+                <div class="input-group">
+                    <input type="text" name="search_query" class="form-control" placeholder="Buscar por ID" value="<?php echo isset($_GET['search_query']) ? htmlspecialchars($_GET['search_query']) : ''; ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit">
+                            <i class="fas fa-search fa-sm"></i> Buscar
+                        </button>
+                        <?php if (isset($_GET['search_query'])): ?>
+                            <a href="register.php" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Limpiar
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </form>
+
+            <h6 class="m-0 font-weight-bold text-success flex-shrink-0"> 
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addadminprofile">
+                    <i class="fas fa-plus mr-1"></i> Agregar productos de inventario
+                </button>
+            </h6>
+        </div>
+        </div>
 <div class="card-body">
 
 <?php
@@ -223,27 +228,36 @@ session_start();
     unset($_SESSION['status']);
   }
 ?>
-
-  <div class="table-responsive">
+    
+    <style>
+      .text-wrap-fix {
+        white-space: normal;
+        word-wrap: break-word;
+        vertical-align: top;
+      }
+    </style>
+    <div class="table-responsive">
 
 <?php
     $connection = mysqli_connect("localhost","root","","adminpanel");
 
-    $search = "";
     $query = "SELECT * FROM register"; 
 
+    // INICIO: Lógica de Búsqueda
     if(isset($_GET['search_query']) && !empty($_GET['search_query'])) {
         $search = mysqli_real_escape_string($connection, $_GET['search_query']); 
-        // Consulta corregida para buscar en campos relevantes del inventario
-        $query = "SELECT * FROM register 
-        WHERE `id` LIKE '%$search%' 
+        // Consulta para buscar en campos relevantes
+        $query .= " WHERE `id` LIKE '%$search%' 
         OR `unidad administrativa` LIKE '%$search%' 
         OR `codigo interno del bien` LIKE '%$search%' 
         OR `descripcion` LIKE '%$search%'
         OR `marca` LIKE '%$search%'
         OR `modelo` LIKE '%$search%'
-        OR `categoria general` LIKE '%$search%'"; 
+        OR `categoria general` LIKE '%$search%'
+        OR `estado del uso del bien` LIKE '%$search%'"; 
     }
+    // FIN: Lógica de Búsqueda
+    
     $query_run = mysqli_query($connection, $query);
     
 ?>
@@ -252,25 +266,25 @@ session_start();
       <thead>
         <tr>
           <th>ID</th>
-          <th style="width: 100px;">Unidad administrativa</th>
-          <th style="width: 100px;">Codigo interno del bien</th>
+          <th class="text-wrap-fix" style="width: 110px;">Unidad administrativa</th>
+          <th class="text-wrap-fix" style="width: 80px;">Codigo interno del bien</th>
           <th>Descripción</th>
-          <th style="width: 100px;">Forma adquisición</th>
-          <th style="width: 100px;">Fecha adquisición</th>
-          <th style="width: 100px;">Valor adquisición</th>
-          <th style="width: 90px;">N° documento</th>
+          <th class="text-wrap-fix" style="width: 80px;">Forma adquisición</th>
+          <th class="text-wrap-fix" style="width: 80px;">Fecha adquisición</th>
+          <th class="text-wrap-fix" style="width: 80px;">Valor adquisición</th>
+          <th class="text-wrap-fix" style="width: 80px;">N° documento</th>
           <th>Moneda</th>
-          <th style="width: 100px;">Estado del uso del bien</th>
-          <th style="width: 100px;">Condición física</th>
+          <th class="text-wrap-fix" style="width: 110px;">Estado del uso del bien</th>
+          <th class="text-wrap-fix" style="width: 110px;">Condición física</th>
           <th>Marca</th>
           <th>Modelo</th>
           <th>Color</th>
-          <th style="width: 100px;">Categoria general</th>
-          <th style="width: 100px;">Subcategoria</th>
-          <th style="width: 100px;">Categoria especifica</th>
+          <th class="text-wrap-fix" style="width: 110px;">Categoria general</th>
+          <th class="text-wrap-fix" style="width: 80px;">Subcategoria</th>
+          <th class="text-wrap-fix" style="width: 80px;">Categoria especifica</th>
           <th>Sede</th>
-          <th>Editar</th>
-          <th>Borrar</th>
+          <th>EDITAR</th>
+          <th>BORRAR</th>
         </tr>
       </thead>
       <tbody>
@@ -289,8 +303,8 @@ session_start();
           <td><?php echo $row['descripcion']; ?></td>
           <td><?php echo $row['forma adquisicion']; ?></td>
           <td><?php echo $row['fecha adquisicion']; ?></td>
-          <td><?php echo $row['n° documento']; ?></td>
           <td><?php echo $row['valor adquisicion']; ?></td>
+          <td><?php echo $row['n° documento']; ?></td>
           <td><?php echo $row['moneda']; ?></td>
           <td><?php echo $row['estado del uso del bien']; ?></td>
           <td><?php echo $row['condicion fisica']; ?></td>

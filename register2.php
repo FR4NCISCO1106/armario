@@ -92,7 +92,7 @@ session_start();
                         <option value="">Seleccionar estado...</option>
                         <option value="En uso">En uso</option>
                         <option value="Almacenado">Almacenado</option>
-                        <option value="Proceso de baja">Proceso de baja</option>
+                        <option value="En proceso de baja">En proceso de baja</option> 
                     </select>
                 </div>
 
@@ -189,32 +189,37 @@ session_start();
 
 <div class="container-fluid">
 
-<div class="card shadaow mb-4">
+<div class="card shadow mb-4">
   <div class="card-header py-3">
-    <br>
-        <form
-class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-<div class="input-group">
-<input type="text" name="search_query" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-<div class="input-group-append">
-<button class="btn btn-success" type="submit">
-  <i class="fas fa-search fa-sm"></i>
-  </button>
-  </div>
-  </div>
-  </form>
-  <br>
-  <br>
-    <h6 class="m-0 font-weight-bold text-success" >
-      
-      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addadminprofile">
-  Agregar productos de inventario
-</button>
-</h6>
-</div>
+    
+    <div class="d-flex justify-content-between align-items-center mb-3"> 
+        
+        <form action="" method="GET" class="mb-0 w-100 mr-3" style="max-width: 500px;"> 
+            <div class="input-group">
+                <input type="text" name="search_query" class="form-control" placeholder="Buscar por ID" value="<?php echo isset($_GET['search_query']) ? htmlspecialchars($_GET['search_query']) : ''; ?>">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit">
+                        <i class="fas fa-search fa-sm"></i> Buscar
+                    </button>
+                    <?php if (isset($_GET['search_query'])): ?>
+                        <a href="register2.php" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Limpiar
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </form>
 
+        <h6 class="m-0 font-weight-bold text-success flex-shrink-0"> 
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addadminprofile">
+                <i class="fas fa-plus mr-1"></i> Añadir Nuevo Artículo
+            </button>
+        </h6>
+    </div>
+    </div>
   <div class="card-body">
     <?php
+      // Se usan los estilos de alerta estándar de Bootstrap
       if(isset($_SESSION['success']) && $_SESSION['success'] !='')
       {
         echo '<div class="alert alert-success" role="alert">'.$_SESSION['success'].'</div>';
@@ -229,26 +234,45 @@ class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 
       
       if(isset($_SESSION['delete_success']) && $_SESSION['delete_success'] !='')
       {
+        // Se usa alert-warning/alert-primary como alternativa al rojo para indicar borrado exitoso
         echo '<div class="alert alert-warning" role="alert">'.$_SESSION['delete_success'].'</div>';
         unset($_SESSION['delete_success']);
       }
     ?>
-
+    
     <style>
       .text-wrap-fix {
         white-space: normal;
         word-wrap: break-word;
+        vertical-align: top;
       }
     </style>
+    
     <div class="table-responsive">
       <?php
         $connection = mysqli_connect("localhost","root","","adminpanel");
 
         $query = "SELECT * FROM register2";
+        
+        // Lógica de Búsqueda
+        if (isset($_GET['search_query']) && !empty($_GET['search_query'])) {
+            $search = mysqli_real_escape_string($connection, $_GET['search_query']);
+            
+            // Se construye la cláusula WHERE para buscar en múltiples columnas
+            $query .= " WHERE `id` LIKE '%$search%'
+                        OR `unidad administrativa` LIKE '%$search%'
+                        OR `codigo interno del bien` LIKE '%$search%'
+                        OR `descripcion` LIKE '%$search%'
+                        OR `marca` LIKE '%$search%'
+                        OR `modelo` LIKE '%$search%'
+                        OR `placas` LIKE '%$search%'
+                        OR `estado del uso del bien` LIKE '%$search%'
+                        OR `condicion fisica` LIKE '%$search%'";
+        }
         $query_run = mysqli_query($connection, $query);
       ?>
 
-    <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+    <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0"> 
       <thead>
         <tr>
           <th>ID</th>
@@ -335,9 +359,6 @@ class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 
   </div>
 </div>
 </div> 
-<a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
