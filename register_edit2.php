@@ -1,21 +1,21 @@
 <?php
-  session_start();
-  
-  // Conexión a la base de datos (CRUCIAL para cargar los datos)
-  $connection = mysqli_connect("localhost","root","","adminpanel");
-  if (!$connection) {
-      die("Error de conexión a la base de datos: " . mysqli_connect_error());
-  }
+    session_start();
+    
+    // Conexión a la base de datos (CRUCIAL para cargar los datos)
+    $connection = mysqli_connect("localhost","root","","adminpanel");
+    if (!$connection) {
+        die("Error de conexión a la base de datos: " . mysqli_connect_error());
+    }
 
-  include('includes/header.php');
-  include('includes/navbar.php');
-?>
+    include('includes/header.php');
+    include('includes/navbar.php');
+    ?>
 
 <div class="container-fluid">
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary"> EDIT Admin Profile </h6>
+            <h6 class="m-0 font-weight-bold text-primary"> EDITAR Artículo </h6>
         </div>
         <div class="card-body">
         <?php
@@ -23,7 +23,8 @@
             // **Condición crucial:** Solo se ejecuta si se ha pulsado el botón 'edit_btn'
             if(isset($_POST['edit_btn']))
             {
-                $id = $_POST['edit_id'];
+                // Limpieza de datos
+                $id = mysqli_real_escape_string($connection, $_POST['edit_id']);
                 
                 // Los nombres de columna deben coincidir exactamente con la base de datos
                 $query = "SELECT * FROM register2 WHERE id='$id' ";
@@ -38,10 +39,10 @@
                         <form action="code2.php" method="POST">
                             
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 border-right">
                                 
                                 <h5 class="mb-3 text-primary">Datos del Bien</h5>
-
+                                
                                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                                     <label>ID</label>
                                     <input type="text" name="edit_id" class="form-control" value="<?php echo htmlspecialchars($row['id']);?>" readonly> 
@@ -85,19 +86,15 @@
                                 </div>
                                 
                                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                                    <label>N° documento</label>
+                                    <input type="text" name="edit_n_documento" class="form-control" placeholder="Número de factura/doc." value="<?php echo htmlspecialchars($row['n° documento']);?>" required>
+                                </div>
+
+                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                                     <label>Valor adquisición</label>
                                     <input type="number" name="edit_valor_adquisicion" class="form-control" step="0.01" placeholder="Valor (ej: 1500.00)" value="<?php echo htmlspecialchars($row['valor adquisicion']);?>" required>
                                 </div>
                                 
-                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
-                                    <label>N° documento</label>
-                                    <input type="text" name="edit_n_documento" class="form-control" placeholder="Número de factura/doc." value="<?php echo htmlspecialchars($row['n° documento']);?>" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <h5 class="mb-3 text-success">Características del Bien</h5>
-
                                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                                     <label>Moneda</label>
                                     <select name="edit_moneda" class="form-control" required>
@@ -107,6 +104,11 @@
                                         <option value="Local" <?php if(isset($row['moneda']) && $row['moneda'] == 'Local') echo 'selected'; ?>>Moneda Local</option>
                                     </select>
                                 </div>
+                                
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5 class="mb-3 text-success">Características del Bien</h5>
 
                                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                                     <label>Estado del uso del bien</label>
@@ -142,6 +144,26 @@
                                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                                     <label>Color</label>
                                     <input type="text" name="edit_color" class="form-control" placeholder="Color (ej: Negro)" value="<?php echo htmlspecialchars($row['color']);?>" required>
+                                </div>
+                                
+                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                                    <label>Año de fabricación</label>
+                                    <input type="text" name="edit_año_fabricacion" class="form-control" placeholder="Año (ej: 2001)" value="<?php echo htmlspecialchars($row['año fabricacion']);?>" required>
+                                </div>
+
+                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                                    <label>Serial carroceria</label>
+                                    <input type="text" name="edit_serial_carroceria" class="form-control" placeholder="Serial Carrocería (ej: 1GCHEVYABC1234567)" value="<?php echo htmlspecialchars($row['serial carroceria']);?>" required>
+                                </div>
+
+                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                                    <label>Serial motor</label>
+                                    <input type="text" name="edit_serial_motor" class="form-control" placeholder="Serial Motor (ej: 1GCHEVYABC1234567)" value="<?php echo htmlspecialchars($row['serial motor']);?>" required>
+                                </div>
+
+                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                                    <label>Placas</label>
+                                    <input type="text" name="edit_placas" class="form-control" placeholder="Placas (ej: AA12345)" value="<?php echo htmlspecialchars($row['placas']);?>" required>
                                 </div>
                                 
                                 <h5 class="mt-4 mb-3 text-success">Clasificación y Ubicación</h5>

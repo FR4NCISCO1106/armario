@@ -60,6 +60,11 @@ session_start();
                     <label>Fecha adquisición</label>
                     <input type="date" name="fecha_adquisicion" class="form-control" required>
                 </div>
+
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>N° documento</label>
+                    <input type="text" name="n_documento" class="form-control" placeholder="Número de factura/doc." required>
+                </div>
                 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Valor adquisición</label>
@@ -67,15 +72,6 @@ session_start();
                 </div>
                 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
-                    <label>N° documento</label>
-                    <input type="text" name="n_documento" class="form-control" placeholder="Número de factura/doc." required>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <h5 class="mb-3 text-success">Características del Bien</h5>
-
-                  <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Moneda</label>
                     <select name="moneda" class="form-control" required>
                         <option value="">Seleccionar moneda...</option>
@@ -84,6 +80,11 @@ session_start();
                         <option value="Local">Moneda Local</option>
                     </select>
                 </div>
+                
+            </div>
+
+            <div class="col-md-6">
+                <h5 class="mb-3 text-success">Características del Bien</h5>
 
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Estado del uso del bien</label>
@@ -91,7 +92,7 @@ session_start();
                         <option value="">Seleccionar estado...</option>
                         <option value="En uso">En uso</option>
                         <option value="Almacenado">Almacenado</option>
-                        <option value="Baja">En proceso de baja</option>
+                        <option value="Proceso de baja">Proceso de baja</option>
                     </select>
                 </div>
 
@@ -119,6 +120,26 @@ session_start();
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Color</label>
                     <input type="text" name="color" class="form-control" placeholder="Color (ej: Negro)" required>
+                </div>
+                
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Año fabricación</label>
+                    <input type="text" name="año_fabricacion" class="form-control" placeholder="Año (ej: 2001)" required>
+                </div> 
+
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Serial carroceria</label>
+                    <input type="text" name="serial_carroceria" class="form-control" placeholder="Serial Carrocería (ej: 1GCHEVYABC1234567)" required>
+                </div>
+
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Serial motor</label>
+                    <input type="text" name="serial_motor" class="form-control" placeholder="Serial Motor (ej: 1GCHEVYABC1234567)" required>
+                </div>
+
+                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                    <label>Placas</label>
+                    <input type="text" name="placas" class="form-control" placeholder="Placas (ej: AA00001)" required>
                 </div>
                 
                 <h5 class="mt-4 mb-3 text-success">Clasificación y Ubicación</h5>
@@ -155,138 +176,115 @@ session_start();
             </div>
             
         </div>
+
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times-circle mr-1"></i> Cerrar</button>
-            <button type="submit" name="registerbtn" class="btn btn-success"><i class="fas fa-plus-circle mr-1"></i> Salvar Artículo</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times-circle mr-1"></i> Cerrar</button>
+          <button type="submit" name="registerbtn" class="btn btn-success"><i class="fas fa-plus-circle mr-1"></i> Salvar Artículo</button>
         </div>
       </form>
 
     </div>
   </div>
 </div>
+
 <div class="container-fluid">
-    <div class="card shadaow mb-4">
-      <div class="card-header py-3">
-        <br>
-            <form
-    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-    <div class="input-group">
-    <input type="text" name="search_query" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-    <div class="input-group-append">
-    <button class="btn btn-success" type="submit">
-      <i class="fas fa-search fa-sm"></i>
-      </button>
-      </div>
-      </div>
-      </form>
-      <br>
-      <br>
-        <h6 class="m-0 font-weight-bold text-success" >
-          
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addadminprofile">
-      Agregar productos de inventario
+
+<div class="card shadaow mb-4">
+  <div class="card-header py-3">
+    <br>
+        <form
+class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+<div class="input-group">
+<input type="text" name="search_query" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+<div class="input-group-append">
+<button class="btn btn-success" type="submit">
+  <i class="fas fa-search fa-sm"></i>
+  </button>
+  </div>
+  </div>
+  </form>
+  <br>
+  <br>
+    <h6 class="m-0 font-weight-bold text-success" >
+      
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addadminprofile">
+  Agregar productos de inventario
 </button>
 </h6>
 </div>
-<div class="card-body">
 
-<?php
-  // USO DE ALERTAS DE BOOTSTRAP para mensajes (Mejora de estilo)
+  <div class="card-body">
+    <?php
+      if(isset($_SESSION['success']) && $_SESSION['success'] !='')
+      {
+        echo '<div class="alert alert-success" role="alert">'.$_SESSION['success'].'</div>';
+        unset($_SESSION['success']);
+      }
 
-  // 1. Alerta de ÉXITO GENERAL (Añadir/Editar) - VERDE ESTÁNDAR (alert-success)
-  if(isset($_SESSION['success']) && $_SESSION['success'] !='' )
-  {
-    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Éxito:</strong> '.$_SESSION['success'].'
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          </div>';
-    unset($_SESSION['success']);
-  }
-  
-  // 2. Alerta de ÉXITO de BORRADO - AZUL OSCURO (alert-primary)
-  if(isset($_SESSION['delete_success']) && $_SESSION['delete_success'] !='' )
-  {
-    echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-            <strong>Éxito:</strong> '.$_SESSION['delete_success'].'
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          </div>';
-    unset($_SESSION['delete_success']);
-  }
+      if(isset($_SESSION['status']) && $_SESSION['status'] !='')
+      {
+        echo '<div class="alert alert-danger" role="alert">'.$_SESSION['status'].'</div>';
+        unset($_SESSION['status']);
+      }
+      
+      if(isset($_SESSION['delete_success']) && $_SESSION['delete_success'] !='')
+      {
+        echo '<div class="alert alert-warning" role="alert">'.$_SESSION['delete_success'].'</div>';
+        unset($_SESSION['delete_success']);
+      }
+    ?>
 
-  // 3. Alerta de ERROR (status) - SE MANTIENE ROJO
-  if(isset($_SESSION['status']) && $_SESSION['status'] !='' )
-  {
-    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Error:</strong> '.$_SESSION['status'].'
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          </div>';
-    unset($_SESSION['status']);
-  }
-?>
+    <style>
+      .text-wrap-fix {
+        white-space: normal;
+        word-wrap: break-word;
+      }
+    </style>
+    <div class="table-responsive">
+      <?php
+        $connection = mysqli_connect("localhost","root","","adminpanel");
 
-  <div class="table-responsive">
-
-<?php
-    $connection = mysqli_connect("localhost","root","","adminpanel");
-
-    $search = "";
-    $query = "SELECT * FROM register2"; 
-
-    if(isset($_GET['search_query']) && !empty($_GET['search_query'])) {
-        $search = mysqli_real_escape_string($connection, $_GET['search_query']); 
-        // Consulta corregida para buscar en campos relevantes del inventario
-        $query = "SELECT * FROM register2 
-        WHERE `id` LIKE '%$search%' 
-        OR `unidad administrativa` LIKE '%$search%' 
-        OR `codigo interno del bien` LIKE '%$search%' 
-        OR `descripcion` LIKE '%$search%'
-        OR `marca` LIKE '%$search%'
-        OR `modelo` LIKE '%$search%'
-        OR `categoria general` LIKE '%$search%'"; 
-    }
-    $query_run = mysqli_query($connection, $query);
-    
-?>
+        $query = "SELECT * FROM register2";
+        $query_run = mysqli_query($connection, $query);
+      ?>
 
     <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
       <thead>
         <tr>
           <th>ID</th>
-          <th style="width: 100px;">Unidad administrativa</th>
-          <th style="width: 100px;">Codigo interno del bien</th>
-          <th>Descripción</th>
-          <th style="width: 100px;">Forma adquisición</th>
-          <th style="width: 100px;">Fecha adquisición</th>
-          <th style="width: 100px;">Valor adquisición</th>
-          <th style="width: 90px;">N° documento</th>
+          <th class="text-wrap-fix" style="width: 120px;">Unidad administrativa</th>
+          <th class="text-wrap-fix" style="width: 80px;">Codigo interno del bien</th>
+          <th>Descripcion</th>
+          <th class="text-wrap-fix" style="width: 80px;">Forma adquisicion</th>
+          <th class="text-wrap-fix" style="width: 80px;">Fecha adquisicion</th>
+          <th class="text-wrap-fix" style="width: 80px;">N° documento</th>
+          <th class="text-wrap-fix" style="width: 80px;">Valor adquisicion</th>
           <th>Moneda</th>
-          <th style="width: 100px;">Estado del uso del bien</th>
-          <th style="width: 100px;">Condición física</th>
+          <th class="text-wrap-fix" style="width: 120px;">Estado del uso del bien</th>
+          <th class="text-wrap-fix" style="width: 120px;">Condicion fisica</th>
           <th>Marca</th>
           <th>Modelo</th>
           <th>Color</th>
-          <th style="width: 100px;">Categoria general</th>
-          <th style="width: 100px;">Subcategoria</th>
-          <th style="width: 100px;">Categoria especifica</th>
+          <th class="text-wrap-fix" style="width: 80px;">Año fabricacion</th>
+          <th class="text-wrap-fix" style="width: 100px;">Serial carroceria</th>
+          <th class="text-wrap-fix" style="width: 100px;">Serial motor</th>
+          <th>Placas</th>
+          <th class="text-wrap-fix" style="width: 120px;">Categoria general</th>
+          <th class="text-wrap-fix" style="width: 80px;">Subcategoria</th>
+          <th class="text-wrap-fix" style="width: 80px;">Categoria especifica</th>
           <th>Sede</th>
-          <th>Sede</th>
-          <th>Sede</th>
-          <th>Sede</th>
-          <th>Sede</th>
-          <th>Editar</th>
-          <th>Borrar</th>
+          <th>EDITAR</th>
+          <th>BORRAR</th>
         </tr>
       </thead>
       <tbody>
       <?php
-      if(mysqli_num_rows($query_run) > 0) 
+      if(mysqli_num_rows($query_run) > 0)
       {
-        while($row = mysqli_fetch_assoc($query_run)) 
+        while($row = mysqli_fetch_assoc($query_run))
         {
-          ?>
-
-
-<tr>
+      ?>
+        <tr>
           <td><?php echo $row['id']; ?></td>
           <td><?php echo $row['unidad administrativa']; ?></td>
           <td><?php echo $row['codigo interno del bien']; ?></td>
@@ -301,19 +299,21 @@ session_start();
           <td><?php echo $row['marca']; ?></td>
           <td><?php echo $row['modelo']; ?></td>
           <td><?php echo $row['color']; ?></td>
+          <td><?php echo $row['año fabricacion']; ?></td>
+          <td><?php echo $row['serial carroceria']; ?></td>
+          <td><?php echo $row['serial motor']; ?></td>
+          <td><?php echo $row['placas']; ?></td>
           <td><?php echo $row['categoria general']; ?></td>
           <td><?php echo $row['subcategoria']; ?></td>
           <td><?php echo $row['categoria especifica']; ?></td>
           <td><?php echo $row['sede']; ?></td>
-
-          <td class="text-center"> 
+          <td>
             <form action="register_edit2.php" method="post">
               <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
-              <button type="submit" name="edit_btn" class="btn btn-success btn-sm"><i class="fas fa-edit"></i> EDITAR</button>
+              <button type="submit" name="edit_btn" class="btn btn-success btn-sm"><i class="fas fa-edit"></i>EDITAR</button>
             </form>
           </td>
-
-          <td class="text-center">
+          <td>
             <form action="code2.php" method="post">
               <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
               <button type="submit" name="delete_btn" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este registro?');"><i class="fas fa-trash-alt"></i>BORRAR</button>
@@ -325,7 +325,7 @@ session_start();
       } 
       else
       {
-        echo "<tr><td colspan='20' class='text-center'>No se encontraron registros</td></tr>";
+        echo "<tr><td colspan='24' class='text-center'>No se encontraron registros</td></tr>";
       }
 
         ?>
@@ -334,19 +334,11 @@ session_start();
     </div>
   </div>
 </div>
-
-</div> 
-</div> 
-</div> 
-</div> 
-</div> 
 </div> 
 <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -367,6 +359,6 @@ session_start();
 
 
 <?php
-include('includes/script.php');
-include('includes/footer.php');
+  include('includes/script.php');
+  include('includes/footer.php');
 ?>
