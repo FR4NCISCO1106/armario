@@ -252,7 +252,7 @@ include ('includes/navbar.php');
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-house-user fa-3x text-gray-500"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -267,7 +267,7 @@ include ('includes/navbar.php');
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Total registro de vehiculos</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-500"></div>
                                             <?php
                                                 require 'dbconfig.php';
 
@@ -281,7 +281,7 @@ include ('includes/navbar.php');
 
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-car fa-3x text-gray-500"></i>
                                         </div>
                                     </div>
                                 </div>
