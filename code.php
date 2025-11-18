@@ -1,4 +1,5 @@
 <?php
+include('security.php');
 session_start();
 
 $connection = mysqli_connect("localhost","root","","adminpanel");
@@ -34,20 +35,20 @@ if(isset($_POST['registerbtn']))
     $sede = mysqli_real_escape_string($connection, $_POST['sede'] ?? '');
 
 
-    // 1. VERIFICAR DUPLICIDAD DEL ID
+
     $check_query = "SELECT id FROM register WHERE id='$id'";
     $check_run = mysqli_query($connection, $check_query);
 
     if (mysqli_num_rows($check_run) > 0) {
-        // ID DUPLICADO DETECTADO
+
         $_SESSION['status'] = "Error: Ya existe un registro con el ID **{$id}**. Por favor, ingrese uno diferente.";
         header('Location: register.php');
         exit();
     } 
-    // Si no es duplicado, procede al INSERT
+
     else 
     {
-        // Consulta SQL INSERT (usando backticks en columnas con espacios)
+
         $query = "INSERT INTO register 
         (`id`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, 
         `n° documento`, `valor adquisicion`, `moneda`, `estado del uso del bien`, `condicion fisica`, `marca`, 
@@ -62,13 +63,13 @@ if(isset($_POST['registerbtn']))
 
         if($query_run)
         {
-          // Éxito: Añadir (verde)
+
           $_SESSION['success'] = "Articulo de inventario añadido con éxito.";
           header('Location: register.php');
         }
         else
         {
-          // Este ELSE manejará cualquier otro error SQL (ej. error de sintaxis)
+
           $_SESSION['status'] = "Error al añadir el artículo: " . mysqli_error($connection);
           header('Location: register.php');
         }
@@ -76,10 +77,10 @@ if(isset($_POST['registerbtn']))
 }
 
 
-// LÓGICA DE ACTUALIZACIÓN (UPDATE)
+
 if(isset($_POST['updatebtn']))
 {
-  // Limpieza de datos (usando $_POST['edit_...'])
+
   $id = mysqli_real_escape_string($connection, $_POST['edit_id'] ?? '');
   $unidad_administrativa = mysqli_real_escape_string($connection, $_POST['edit_unidad_administrativa'] ?? '');
   $codigo_interno_del_bien = mysqli_real_escape_string($connection, $_POST['edit_codigo_interno_del_bien'] ?? '');
@@ -100,7 +101,7 @@ if(isset($_POST['updatebtn']))
   $sede = mysqli_real_escape_string($connection, $_POST['edit_sede'] ?? '');
   
 
-  // Consulta SQL UPDATE (CORREGIDA con backticks y nombres de columna correctos)
+
   $query = "UPDATE register SET 
     `unidad administrativa`='$unidad_administrativa', 
     `codigo interno del bien`='$codigo_interno_del_bien', 
@@ -125,7 +126,7 @@ if(isset($_POST['updatebtn']))
 
   if($query_run)
   {
-    // Éxito: Actualizar (verde)
+
     $_SESSION['success'] = "Tus datos se han actualizado.";
     header('Location: register.php');
   }
@@ -135,7 +136,7 @@ if(isset($_POST['updatebtn']))
   }
 }
 
-// LÓGICA DE BORRADO (DELETE) - ***MODIFICACIÓN AQUÍ***
+
 if(isset($_POST['delete_btn']))
 {
     $id = mysqli_real_escape_string($connection, $_POST['delete_id']);
@@ -145,7 +146,7 @@ if(isset($_POST['delete_btn']))
 
     if($query_run)
     {
-        // *** CAMBIO CLAVE: Usar 'delete_success' para el borrado (lo mostrará en azul) ***
+
         $_SESSION['delete_success'] = "El registro con ID *{$id}* ha sido eliminado.";
         header('Location: register.php');
     }
@@ -157,8 +158,51 @@ if(isset($_POST['delete_btn']))
 }
 
 
-if(isset($_POST['delete_btn']))
-{
 
+if(isset($_POST['login_btn']))
+{
+  $username_login = mysqli_real_escape_string($connection, $_POST['username'] ?? ''); 
+  $password_login = mysqli_real_escape_string($connection, $_POST['password'] ?? '');
+
+
+  if (empty($username_login) || empty($password_login)) {
+      $_SESSION['status'] = "Por favor, complete ambos campos (Usuario y Contraseña).";
+      header('Location: login.php');
+      exit(); 
+  }
+
+
+  $query = "SELECT * FROM users WHERE usuario='$username_login' AND contraseña='$password_login' ";
+  $query_run = mysqli_query($connection, $query);
+  
+  if($query_run) 
+  {
+      if(mysqli_num_rows($query_run) > 0)
+      {
+
+          $_SESSION['username'] = $username_login;
+          $_SESSION['success'] = "¡Bienvenido de nuevo!";
+          header('Location: index.php'); 
+      }
+      else
+      {
+
+          $_SESSION['status'] = "Usuario o contraseña incorrectos.";
+          header('Location: login.php'); 
+      }
+  }
+  else 
+  {
+
+      $_SESSION['status'] = "Error en el servidor al intentar iniciar sesión: " . mysqli_error($connection);
+      header('Location: login.php');
+  }
 }
+
+
+
+
+
+
+
 ?>
