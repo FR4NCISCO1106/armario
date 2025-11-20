@@ -1,7 +1,8 @@
 <?php
-session_start();
-  include('includes/header.php');
-  include('includes/navbar.php');
+include('security.php');
+
+include('includes/header.php');
+include('includes/navbar.php');
 ?>
 
 
@@ -250,7 +251,6 @@ session_start();
     
     <div class="table-responsive">
       <?php
-        $connection = mysqli_connect("localhost","root","","adminpanel");
 
         $query = "SELECT * FROM register2";
         

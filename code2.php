@@ -1,16 +1,7 @@
 <?php
-session_start();
+include('security.php');
 
-// Deshabilitar la verificación de conexión en el servidor si no es estrictamente necesario,
-// ya que si falla la conexión, el script terminará.
-$connection = mysqli_connect("localhost","root","","adminpanel");
 
-// 1. Verificar la conexión
-if (!$connection) {
-    $_SESSION['status'] = "Error de conexión a la base de datos: " . mysqli_connect_error();
-    header('Location: register2.php');
-    exit();
-}
 
 // LÓGICA DE REGISTRO (INSERT)
 if(isset($_POST['registerbtn']))

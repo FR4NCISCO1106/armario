@@ -1,12 +1,7 @@
 <?php 
-session_start(); // 1. Inicia la sesión
+require 'database/dbconfig.php'; 
 
-// 2. Bloquea el acceso si no hay un usuario en sesión
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit();
-}
-
+include('security.php');
 include ('includes/header.php'); 
 include ('includes/navbar.php'); 
 ?>
@@ -73,14 +68,14 @@ include ('includes/navbar.php');
                                 <img class="img-profile rounded-circle"
                                     src="img/icon.jpg">
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in p-3"
                                 aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Cerrar sesión
-                                </a>
-                            </div>
+                                
+                                <form action="logout.php" method="POST" class="d-grid mx-auto w-75"> 
+                                    <button  type="submit" name="logout_btn" class="btn btn-danger">Cerrar sesión</button>
+                                </form>
+                                </div>
                         </li>
 
                     </ul>
@@ -106,8 +101,7 @@ include ('includes/navbar.php');
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
 
                                             <?php
-                                                require 'dbconfig.php';
-
+                                                // Ya no se necesita el require aquí porque se hizo al inicio.
                                                 $query = "SELECT id FROM register ORDER BY id";
                                                 $query_run = mysqli_query($connection, $query);
 
@@ -115,7 +109,6 @@ include ('includes/navbar.php');
 
                                                 echo '<h1>'.$row.'</h1>';
                                             ?>
-
 
 
                                             </div>
@@ -137,8 +130,7 @@ include ('includes/navbar.php');
                                                 Total registro de vehiculos</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-500"></div>
                                             <?php
-                                                require 'dbconfig.php';
-
+                                                // Ya no se necesita el require aquí porque se hizo al inicio.
                                                 $query = "SELECT id FROM register2 ORDER BY id";
                                                 $query_run = mysqli_query($connection, $query);
 

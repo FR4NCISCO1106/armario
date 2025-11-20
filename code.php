@@ -1,15 +1,7 @@
 <?php
 include('security.php');
-session_start();
 
-$connection = mysqli_connect("localhost","root","","adminpanel");
 
-// 1. Verificar la conexión
-if (!$connection) {
-    $_SESSION['status'] = "Error de conexión a la base de datos: " . mysqli_connect_error();
-    header('Location: register.php');
-    exit();
-}
 
 // LÓGICA DE REGISTRO (INSERT)
 if(isset($_POST['registerbtn']))

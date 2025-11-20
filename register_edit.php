@@ -1,15 +1,10 @@
 <?php
-  session_start();
-  
-  // Conexión a la base de datos (CRUCIAL para cargar los datos)
-  $connection = mysqli_connect("localhost","root","","adminpanel");
-  if (!$connection) {
-      die("Error de conexión a la base de datos: " . mysqli_connect_error());
-  }
+include('security.php');
+    
 
-  include('includes/header.php');
-  include('includes/navbar.php');
-?>
+    include('includes/header.php');
+    include('includes/navbar.php');
+    ?>
 
 <div class="container-fluid">
 
