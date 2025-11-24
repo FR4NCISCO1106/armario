@@ -164,7 +164,7 @@ include('includes/navbar.php');
                     <label>Categoria especifica</label>
                     <input type="text" name="categoria_especifica" class="form-control" placeholder="Categoría específica" required>
                 </div>
-                
+
                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                     <label>Sede</label>
                     <select name="sede" class="form-control" required>
@@ -174,8 +174,9 @@ include('includes/navbar.php');
                         <option value="Sucursal Sur">Sucursal Sur</option>
                     </select>
                 </div>
+
             </div>
-            
+
         </div>
 
         <div class="modal-footer">
@@ -190,125 +191,124 @@ include('includes/navbar.php');
 
 <div class="container-fluid">
 
-<div class="card shadow mb-4">
-  <div class="card-header py-3">
-    
-    <div class="d-flex justify-content-between align-items-center mb-3"> 
-        
-        <form action="" method="GET" class="mb-0 w-100 mr-3" style="max-width: 500px;"> 
-            <div class="input-group">
-                <input type="text" name="search_query" class="form-control" placeholder="Buscar por ID" value="<?php echo isset($_GET['search_query']) ? htmlspecialchars($_GET['search_query']) : ''; ?>">
-                <div class="input-group-append">
-                    <button class="btn btn-success" type="submit">
-                        <i class="fas fa-search fa-sm"></i> Buscar
-                    </button>
-                    <?php if (isset($_GET['search_query'])): ?>
-                        <a href="register2.php" class="btn btn-secondary">
-                            <i class="fas fa-times"></i> Limpiar
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </form>
-
-        <h6 class="m-0 font-weight-bold text-success flex-shrink-0"> 
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      
+        <h6 class="m-0 font-weight-bold text-success flex-shrink-0 d-flex align-items-center">
+        <button type="button" class="btn btn-info mr-2" onclick="generarReportePDF('reporte inventario vehiculo')"> 
+            <i class="fas fa-file-pdf mr-1"></i> Generar Reporte
+        </button>
+            
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addadminprofile">
-                <i class="fas fa-plus mr-1"></i> Añadir Nuevo Artículo
+                <i class="fas fa-plus mr-1"></i> Agregar productos de inventario
             </button>
         </h6>
+
+
+      <form class="d-none d-sm-inline-block form-inline ml-auto mr-0 my-2 my-md-0 mw-100 navbar-search" method="GET" action="register2.php">
+          <div class="input-group">
+              <input type="text" name="search_query" class="form-control bg-light border-0 small" placeholder="Buscar producto..." aria-label="Search" aria-describedby="basic-addon2" value="<?php echo htmlspecialchars($_GET['search_query'] ?? ''); ?>">
+              <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">
+                      <i class="fas fa-search fa-sm"></i>
+                  </button>
+              </div>
+          </div>
+      </form>
     </div>
-    </div>
-  <div class="card-body">
-    <?php
-      // Se usan los estilos de alerta estándar de Bootstrap
-      if(isset($_SESSION['success']) && $_SESSION['success'] !='')
-      {
-        echo '<div class="alert alert-success" role="alert">'.$_SESSION['success'].'</div>';
+
+    <div class="card-body">
+
+      <?php
+      // Mensajes de estado (SUCCESS/STATUS)
+      if(isset($_SESSION['success']) && $_SESSION['success'] !='' ) {
+        echo '<div class="alert alert-success alert-dismissible fade show" role="alert"> <strong>¡Éxito!</strong> '.$_SESSION['success'].' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>';
         unset($_SESSION['success']);
       }
+      
+      if(isset($_SESSION['delete_success']) && $_SESSION['delete_success'] !='' ) {
+          // Se usa alert-warning/alert-primary como alternativa al rojo para indicar borrado exitoso
+          echo '<div class="alert alert-warning alert-dismissible fade show" role="alert"> <strong>Eliminado:</strong> '.$_SESSION['delete_success'].' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>';
+          unset($_SESSION['delete_success']);
+      }
 
-      if(isset($_SESSION['status']) && $_SESSION['status'] !='')
-      {
-        echo '<div class="alert alert-danger" role="alert">'.$_SESSION['status'].'</div>';
+      if(isset($_SESSION['status']) && $_SESSION['status'] !='' ) {
+        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"> <strong>Error:</strong> '.$_SESSION['status'].' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> </div>';
         unset($_SESSION['status']);
       }
-      
-      if(isset($_SESSION['delete_success']) && $_SESSION['delete_success'] !='')
-      {
-        // Se usa alert-warning/alert-primary como alternativa al rojo para indicar borrado exitoso
-        echo '<div class="alert alert-warning" role="alert">'.$_SESSION['delete_success'].'</div>';
-        unset($_SESSION['delete_success']);
-      }
-    ?>
-    
-    <style>
+      ?>
+
+      <style>
       .text-wrap-fix {
         white-space: normal;
         word-wrap: break-word;
         vertical-align: top;
       }
-    </style>
-    
-    <div class="table-responsive">
-      <?php
+      </style>
 
+      <div class="table-responsive">
+      <?php
         $query = "SELECT * FROM register2";
-        
-        // Lógica de Búsqueda
-        if (isset($_GET['search_query']) && !empty($_GET['search_query'])) {
+
+        // INICIO: Lógica de Búsqueda
+        if(isset($_GET['search_query']) && !empty($_GET['search_query'])) {
             $search = mysqli_real_escape_string($connection, $_GET['search_query']);
-            
-            // Se construye la cláusula WHERE para buscar en múltiples columnas
-            $query .= " WHERE `id` LIKE '%$search%'
-                        OR `unidad administrativa` LIKE '%$search%'
-                        OR `codigo interno del bien` LIKE '%$search%'
-                        OR `descripcion` LIKE '%$search%'
-                        OR `marca` LIKE '%$search%'
-                        OR `modelo` LIKE '%$search%'
-                        OR `placas` LIKE '%$search%'
-                        OR `estado del uso del bien` LIKE '%$search%'
-                        OR `condicion fisica` LIKE '%$search%'";
+            // Consulta para buscar en campos relevantes
+            $query .= " WHERE `id` LIKE '%$search%' OR `unidad administrativa` LIKE '%$search%' OR `codigo interno del bien` LIKE '%$search%' OR `descripcion` LIKE '%$search%' OR `marca` LIKE '%$search%' OR `modelo` LIKE '%$search%' OR `placas` LIKE '%$search%' OR `estado del uso del bien` LIKE '%$search%' OR `condicion fisica` LIKE '%$search%'";
         }
+        // FIN: Lógica de Búsqueda
+
         $query_run = mysqli_query($connection, $query);
       ?>
-
-    <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0"> 
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th class="text-wrap-fix" style="width: 120px;">Unidad administrativa</th>
-          <th class="text-wrap-fix" style="width: 80px;">Codigo interno del bien</th>
-          <th>Descripcion</th>
-          <th class="text-wrap-fix" style="width: 80px;">Forma adquisicion</th>
-          <th class="text-wrap-fix" style="width: 80px;">Fecha adquisicion</th>
-          <th class="text-wrap-fix" style="width: 80px;">N° documento</th>
-          <th class="text-wrap-fix" style="width: 80px;">Valor adquisicion</th>
-          <th>Moneda</th>
-          <th class="text-wrap-fix" style="width: 120px;">Estado del uso del bien</th>
-          <th class="text-wrap-fix" style="width: 120px;">Condicion fisica</th>
-          <th>Marca</th>
-          <th>Modelo</th>
-          <th>Color</th>
-          <th class="text-wrap-fix" style="width: 80px;">Año fabricacion</th>
-          <th class="text-wrap-fix" style="width: 100px;">Serial carroceria</th>
-          <th class="text-wrap-fix" style="width: 100px;">Serial motor</th>
-          <th>Placas</th>
-          <th class="text-wrap-fix" style="width: 120px;">Categoria general</th>
-          <th class="text-wrap-fix" style="width: 80px;">Subcategoria</th>
-          <th class="text-wrap-fix" style="width: 80px;">Categoria especifica</th>
-          <th>Sede</th>
-          <th>EDITAR</th>
-          <th>BORRAR</th>
-        </tr>
-      </thead>
-      <tbody>
-      <?php
-      if(mysqli_num_rows($query_run) > 0)
-      {
-        while($row = mysqli_fetch_assoc($query_run))
+      <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+        <thead class="bg-light text-secondary">
+          <tr>
+            <th>ID</th>
+            <th>U. Administrativa</th>
+            <th>Código Interno</th>
+            <th>Descripción</th>
+            <th>Forma Adquisición</th>
+            <th>Fecha Adquisición</th>
+            <th>N° Documento</th>
+            <th>Valor Adquisición</th>
+            <th>Moneda</th>
+            <th>Estado Uso</th>
+            <th>Condición Física</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Color</th>
+            <th>Año Fab.</th>
+            <th>Serial Carrocería</th>
+            <th>Serial Motor</th>
+            <th>Placas</th>
+            <th>Cat. General</th>
+            <th>Subcategoría</th>
+            <th>Cat. Específica</th>
+            <th>Sede</th>
+            <th>Fecha Edición</th>
+            <th>EDITAR</th>
+            <th>BORRAR</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+        if($query_run && mysqli_num_rows($query_run) > 0)
         {
-      ?>
-        <tr>
+          foreach($query_run as $row)
+          {
+            // Ajuste para evitar el error 'Undefined index' si el campo es NULL en la DB
+            $u_admin = $row['unidad administrativa'] ?? '';
+            $codigo_bien = $row['codigo interno del bien'] ?? '';
+            $descripcion = $row['descripcion'] ?? '';
+            $condicion_fisica = $row['condicion fisica'] ?? '';
+            $valor_adquisicion = $row['valor adquisicion'] ?? '0.00';
+            $moneda = $row['moneda'] ?? '';
+            
+            // Formatear el valor de adquisición a moneda
+            $valor_formateado = $moneda . ' ' . number_format((float)$valor_adquisicion, 2, '.', ',');
+
+            ?>
+            <tr>
           <td><?php echo $row['id']; ?></td>
           <td><?php echo $row['unidad administrativa']; ?></td>
           <td><?php echo $row['codigo interno del bien']; ?></td>
@@ -331,34 +331,46 @@ include('includes/navbar.php');
           <td><?php echo $row['subcategoria']; ?></td>
           <td><?php echo $row['categoria especifica']; ?></td>
           <td><?php echo $row['sede']; ?></td>
-          <td>
-            <form action="register_edit2.php" method="post">
-              <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
-              <button type="submit" name="edit_btn" class="btn btn-success btn-sm"><i class="fas fa-edit"></i>EDITAR</button>
-            </form>
-          </td>
-          <td>
-            <form action="code2.php" method="post">
-              <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-              <button type="submit" name="delete_btn" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este registro?');"><i class="fas fa-trash-alt"></i>BORRAR</button>
-            </form>
-          </td>
-        </tr>
-      <?php
-        } 
-      } 
-      else
-      {
-        echo "<tr><td colspan='24' class='text-center'>No se encontraron registros</td></tr>";
-      }
+<td>
+    <?php 
+        if (!empty($row['fecha_edicion'])) {
+            // **CAMBIAR ESTA LÍNEA** para incluir AM/PM
+            echo date('d/m/Y h:i A', strtotime($row['fecha_edicion'])); 
+        } else {
+            echo 'N/A';
+        }
+    ?>
+</td>
 
-        ?>
-      </tbody>
-    </table>
+              <td>
+                  <form action="register_edit2.php" method="post">
+                      <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
+                      <button type="submit" name="edit_btn" class="btn btn-success btn-sm"><i class="fas fa-edit"></i>EDITAR</button>
+                  </form>
+              </td>
+              <td>
+                  <form action="code2.php" method="post">
+                      <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                      <button type="submit" name="delete_btn" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este registro?');"><i class="fas fa-trash-alt"></i>BORRAR</button>
+                  </form>
+              </td>
+            </tr>
+          <?php
+            } 
+          } 
+          else
+          {
+            echo "<tr><td colspan='24' class='text-center'>No se encontraron registros</td></tr>";
+          }
+
+            ?>
+          </tbody>
+        </table>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 </div> 
+
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -372,7 +384,7 @@ include('includes/navbar.php');
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -380,6 +392,6 @@ include('includes/navbar.php');
 
 
 <?php
-  include('includes/script.php');
-  include('includes/footer.php');
+include('includes/script.php');
+include('includes/footer.php');
 ?>

@@ -49,7 +49,7 @@ include('includes/header.php');
 
     .btn-success,
     .btn-iniciar-personalizado {
-        background-color: #036b08ff !important; 
+        background-color: #26A69A !important; 
         border-color: #ffffffff !important;
         color: white !important;
         padding: 12px 20px !important;
@@ -60,7 +60,7 @@ include('includes/header.php');
 
     .btn-success:hover,
     .btn-iniciar-personalizado:hover {
-        background-color: #0d9903ff !important; 
+        background-color: #007569ff !important; 
         border-color: #00897B !important;
     }
 
