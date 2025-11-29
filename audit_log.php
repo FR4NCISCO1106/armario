@@ -6,9 +6,11 @@ include('includes/header.php');
 include('includes/navbar.php');
 ?>
 
-<div class="container-fluid">
 
-    <h1 class="h3 mb-2 text-gray-800">📜 Registro Completo de Auditoría (Audit Log)</h1>
+<div class="container-fluid">
+  <br>
+  <br>
+    <h1 class="h3 mb-2 text-gray-800">📜 Registro Completo de Auditoría</h1>
     <p class="mb-4">Este listado muestra todos los cambios realizados a los registros de Muebles/Inmuebles y Vehículos, detallando el campo modificado y su valor anterior y nuevo.</p>
 
     <div class="card shadow mb-4">

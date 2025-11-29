@@ -19,15 +19,17 @@ if(isset($_POST['registerbtn']))
     $moneda = mysqli_real_escape_string($connection, $_POST['moneda'] ?? '');
     $estado_del_uso_del_bien = mysqli_real_escape_string($connection, $_POST['estado_del_uso_del_bien'] ?? '');
     $condicion_fisica = mysqli_real_escape_string($connection, $_POST['condicion_fisica'] ?? ''); 
-    $ubicacion_del_bien = mysqli_real_escape_string($connection, $_POST['ubicacion_del_bien'] ?? '');
+    $marca = mysqli_real_escape_string($connection, $_POST['marca'] ?? '');
+    $modelo = mysqli_real_escape_string($connection, $_POST['modelo'] ?? '');
+    $color = mysqli_real_escape_string($connection, $_POST['color'] ?? '');
     $categoria_general = mysqli_real_escape_string($connection, $_POST['categoria_general'] ?? '');
     $subcategoria = mysqli_real_escape_string($connection, $_POST['subcategoria'] ?? '');
     $categoria_especifica = mysqli_real_escape_string($connection, $_POST['categoria_especifica'] ?? '');
     $sede = mysqli_real_escape_string($connection, $_POST['sede'] ?? '');
     
     // Consulta de inserción - CORREGIDO a `ubicaciondelbien`
-    $query = "INSERT INTO register (`id`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, `N. Documento`, `valor adquisicion`, `moneda`, `estado del uso del bien`, `condicion fisica`, `ubicaciondelbien`, `categoria general`, `subcategoria`, `categoria especifica`, `sede`) 
-        VALUES ('$id', '$unidad_administrativa', '$codigo_interno_del_bien', '$descripcion', '$forma_adquisicion', '$fecha_adquisicion', '$n_documento', '$valor_adquisicion', '$moneda', '$estado_del_uso_del_bien', '$condicion_fisica', '$ubicacion_del_bien', '$categoria_general', '$subcategoria', '$categoria_especifica', '$sede')";
+    $query = "INSERT INTO register (`id`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, `N° Documento`, `valor adquisicion`, `moneda`, `estado del uso del bien`, `condicion fisica`, `marca`, `modelo`, `color`, `categoria general`, `subcategoria`, `categoria especifica`, `sede`) 
+        VALUES ('$id', '$unidad_administrativa', '$codigo_interno_del_bien', '$descripcion', '$forma_adquisicion', '$fecha_adquisicion', '$n_documento', '$valor_adquisicion', '$moneda', '$estado_del_uso_del_bien', '$condicion_fisica', '$marca', '$modelo', '$color', '$categoria_general', '$subcategoria', '$categoria_especifica', '$sede')";
 
     $query_run = mysqli_query($connection, $query);
 

@@ -21,7 +21,7 @@
      * Genera un reporte PDF tomando una captura de la tabla HTML con ID 'dataTable'.
      * @param {string} nombreArchivo - El nombre que se usará para descargar el archivo.
      */
-    function generarPDF(nombreArchivo = 'reporte_tabla_datos') { // Agregué un valor por defecto si no se pasa nada
+    function generarPDF(nombreArchivo = 'reporte_tabla_datos') { // El nombre de la función es 'generarPDF'
         // 1. Obtenemos el elemento de la tabla por su ID (usado en DataTables)
         const input = document.getElementById('dataTable');
         

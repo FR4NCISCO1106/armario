@@ -34,7 +34,7 @@ if(isset($_POST['registerbtn']))
     $sede = mysqli_real_escape_string($connection, $_POST['sede'] ?? '');
     
     // Consulta de inserción - ¡CORREGIDO a `N. Documento`!
-    $query = "INSERT INTO register2 (`id`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, `N. Documento`, `valor adquisicion`, `moneda`, `estado del uso del bien`, `condicion fisica`, `marca`, `modelo`, `color`, `año fabricacion`, `serial carroceria`, `serial motor`, `placas`, `categoria general`, `subcategoria`, `categoria especifica`, `sede`) 
+    $query = "INSERT INTO register2 (`id`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, `N° Documento`, `valor adquisicion`, `moneda`, `estado del uso del bien`, `condicion fisica`, `marca`, `modelo`, `color`, `año fabricacion`, `serial carroceria`, `serial motor`, `placas`, `categoria general`, `subcategoria`, `categoria especifica`, `sede`) 
         VALUES ('$id', '$unidad_administrativa', '$codigo_interno_del_bien', '$descripcion', '$forma_adquisicion', '$fecha_adquisicion', '$n_documento', '$valor_adquisicion', '$moneda', '$estado_del_uso_del_bien', '$condicion_fisica', '$marca', '$modelo', '$color', '$año_fabricacion', '$serial_carroceria', '$serial_motor', '$placas', '$categoria_general', '$subcategoria', '$categoria_especifica', '$sede')";
 
     $query_run = mysqli_query($connection, $query);
@@ -98,7 +98,7 @@ if(isset($_POST['updatebtn']))
         'descripcion' => $descripcion,
         'forma adquisicion' => $forma_adquisicion,
         'fecha adquisicion' => $fecha_adquisicion,
-        'N° Documento' => $n_documento, // <-- CORRECCIÓN APLICADA AQUÍ
+        'N° Documento' => $n_documento, 
         'valor adquisicion' => $valor_adquisicion,
         'moneda' => $moneda,
         'estado del uso del bien' => $estado_del_uso_del_bien,
