@@ -30,6 +30,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Registrar productos:</h6>
                 <a class="collapse-item" href="register.php">Carga mueble</a>
+                <a class="collapse-item" href="register3.php">Carga inmueble</a>
                 <a class="collapse-item" href="register2.php">Carga vehiculo</a>
             </div>
         </div>

@@ -193,34 +193,34 @@ if(isset($_POST['delete_btn']))
 
 if(isset($_POST['login_btn']))
 {
-  $username_login = mysqli_real_escape_string($connection, $_POST['username'] ?? ''); 
-  $password_login = mysqli_real_escape_string($connection, $_POST['password'] ?? '');
+    $username_login = mysqli_real_escape_string($connection, $_POST['username'] ?? ''); 
+    $password_login = mysqli_real_escape_string($connection, $_POST['password'] ?? '');
 
 
-  if (empty($username_login) || empty($password_login)) {
-      $_SESSION['status'] = "Por favor, complete ambos campos (Usuario y Contraseña).";
-      header('Location: login.php');
-      exit(); 
-  }
+    if (empty($username_login) || empty($password_login)) {
+        $_SESSION['status'] = "Por favor, complete ambos campos (Usuario y Contraseña).";
+        header('Location: login.php');
+        exit(); 
+    }
 
 
-  $query = "SELECT * FROM users WHERE usuario='$username_login' AND contraseña='$password_login' ";
-  $query_run = mysqli_query($connection, $query);
-  
-  if($query_run) 
-  {
-      if(mysqli_num_rows($query_run) > 0)
-      {
+    $query = "SELECT * FROM users WHERE usuario='$username_login' AND contraseña='$password_login' ";
+    $query_run = mysqli_query($connection, $query);
+    
+    if($query_run) 
+    {
+        if(mysqli_num_rows($query_run) > 0)
+        {
 
-          $_SESSION['username'] = $username_login;
-          $_SESSION['success'] = "¡Bienvenido de nuevo!";
-          header('Location: index.php'); 
-      }
-      else
-      {
-          $_SESSION['status'] = "Usuario o Contraseña Inválidos";
-          header('Location: login.php');
-      }
-  }
-}
-?>
+            $_SESSION['username'] = $username_login;
+            $_SESSION['success'] = "¡Bienvenido de nuevo!";
+            header('Location: index.php'); 
+        }
+        else
+        {
+            $_SESSION['status'] = "Usuario o Contraseña Inválidos";
+            header('Location: login.php');
+        }
+    }
+    }
+    ?>

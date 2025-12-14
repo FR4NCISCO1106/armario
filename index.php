@@ -17,7 +17,7 @@ $query_users = "SELECT id FROM users ORDER BY id";
 $query_run_users = mysqli_query($connection, $query_users);
 $count_users = $query_run_users ? mysqli_num_rows($query_run_users) : 0; 
 
-// 2. Conteo de Muebles/Inmuebles (Tabla 'register')
+// 2. Conteo de Muebles (Tabla 'register')
 $query_muebles = "SELECT id FROM register ORDER BY id";
 $query_run_muebles = mysqli_query($connection, $query_muebles);
 $count_muebles = $query_run_muebles ? mysqli_num_rows($query_run_muebles) : 0;
@@ -29,7 +29,7 @@ $count_vehiculos = $query_run_vehiculos ? mysqli_num_rows($query_run_vehiculos) 
 
 // Arrays para el Gráfico de Pastel
 $data_chart = [$count_users, $count_muebles, $count_vehiculos]; 
-$labels_chart = ["Usuarios", "Muebles/Inmuebles", "Vehículos"];
+$labels_chart = ["Usuarios", "Muebles", "Vehículos"];
 
 
 // =========================================================================
@@ -140,7 +140,7 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total Muebles/Inmuebles</div>
+                                                Total Muebles</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <?php echo '<h1>'.$count_muebles.'</h1>'; ?>
                                             </div>
@@ -220,7 +220,7 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                         <div class="col-xl-6 col-lg-6">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Resumen de Registros (Usuarios, Muebles/Inmuebles, Vehículos)</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Resumen de Registros (Usuarios, Muebles, Vehículos)</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-pie pt-4">
@@ -231,7 +231,7 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                                             <i class="fas fa-circle text-info"></i> Usuarios
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Muebles/Inmuebles
+                                            <i class="fas fa-circle text-primary"></i> Muebles
                                         </span>
                                         <span class="mr-2">
                                             <i class="fas fa-circle text-success"></i> Vehículos
@@ -262,7 +262,7 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                                             while ($row_editado = mysqli_fetch_assoc($query_run_editados)) {
                                                 
                                                 $date_time = new DateTime($row_editado['fecha_modificacion']); 
-                                                $tipo_registro = ($row_editado['tabla'] == 'register2') ? 'Vehículo' : 'Mueble/Inmueble';
+                                                $tipo_registro = ($row_editado['tabla'] == 'register2') ? 'Vehículo' : 'Mueble';
                                                 $color = ($row_editado['tabla'] == 'register2') ? 'text-success' : 'text-primary';
                                                 
                                                 // Limpia y formatea los nombres de los campos para mejor lectura

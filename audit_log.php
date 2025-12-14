@@ -11,7 +11,7 @@ include('includes/navbar.php');
   <br>
   <br>
     <h1 class="h3 mb-2 text-gray-800">📜 Registro Completo de Auditoría</h1>
-    <p class="mb-4">Este listado muestra todos los cambios realizados a los registros de Muebles/Inmuebles y Vehículos, detallando el campo modificado y su valor anterior y nuevo.</p>
+    <p class="mb-4">Este listado muestra todos los cambios realizados a los registros de Muebles y Vehículos, detallando el campo modificado y su valor anterior y nuevo.</p>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -57,7 +57,7 @@ include('includes/navbar.php');
                             while ($row = mysqli_fetch_assoc($query_run)) 
                             {
                                 // Determinar tipo y color para la fila
-                                $tipo_registro = ($row['tabla'] == 'register2') ? '<span class="badge badge-success">Vehículo</span>' : '<span class="badge badge-primary">Mueble/Inmueble</span>';
+                                $tipo_registro = ($row['tabla'] == 'register2') ? '<span class="badge badge-success">Vehículo</span>' : '<span class="badge badge-primary">Mueble</span>';
                                 
                                 // Formatear la fecha
                                 $date_time = new DateTime($row['fecha_modificacion']); 
