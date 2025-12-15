@@ -12,8 +12,8 @@ include ('includes/navbar.php');
 // Lógica PHP para el GRÁFICO DE PASTEL (Conteo de Registros)
 // =========================================================================
 
-// 1. Conteo de Usuarios (Tabla 'users')
-$query_users = "SELECT id FROM users ORDER BY id";
+// 1. Conteo de Inmuebles (Tabla 'register3')
+$query_users = "SELECT id FROM register3 ORDER BY id";
 $query_run_users = mysqli_query($connection, $query_users);
 $count_users = $query_run_users ? mysqli_num_rows($query_run_users) : 0; 
 
@@ -29,11 +29,12 @@ $count_vehiculos = $query_run_vehiculos ? mysqli_num_rows($query_run_vehiculos) 
 
 // Arrays para el Gráfico de Pastel
 $data_chart = [$count_users, $count_muebles, $count_vehiculos]; 
-$labels_chart = ["Usuarios", "Muebles", "Vehículos"];
+$labels_chart = ["Inmuebles", "Muebles", "Vehículos"];
 
 
 // =========================================================================
 // Lógica PHP para Últimos 10 Registros Editados (Consultando el Log de Auditoría)
+// Se utiliza GROUP_CONCAT para agrupar todas las modificaciones de una sola transacción.
 // =========================================================================
 $query_ultimos_editados = "
     SELECT 
@@ -140,7 +141,7 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total Muebles</div>
+                                                Total registro de mueble</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <?php echo '<h1>'.$count_muebles.'</h1>'; ?>
                                             </div>
@@ -178,7 +179,7 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                Total de Usuarios</div>
+                                                Total registro de inmueble </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-500">
@@ -220,7 +221,7 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                         <div class="col-xl-6 col-lg-6">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Resumen de Registros (Usuarios, Muebles, Vehículos)</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Resumen de Registros (Inmuebles, Muebles, Vehículos)</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-pie pt-4">
@@ -228,10 +229,10 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Usuarios
+                                            <i class="fas fa-circle text-info"></i> Inmuebles
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Muebles
+                                            <i class="fas class="fas fa-circle text-primary"></i> Muebles
                                         </span>
                                         <span class="mr-2">
                                             <i class="fas fa-circle text-success"></i> Vehículos
@@ -249,38 +250,59 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush small">
                                         <?php
-                                        // === PRUEBA DE DIAGNÓSTICO: Verificar la conexión/consulta ===
                                         if (!$query_run_editados) {
-                                            // Muestra un error si la consulta falló (ej: nombre de tabla incorrecto)
                                             echo '<li class="list-group-item p-1 border-0 text-danger"><strong>¡ERROR DE CONSULTA!</strong> Revisa la sintaxis SQL o el nombre de la tabla `log_ediciones`. Error: ' . mysqli_error($connection) . '</li>';
                                         }
-                                        // === FIN PRUEBA DE DIAGNÓSTICO ===
-
-
-                                        // Aquí aseguramos que la consulta se haya ejecutado y haya resultados
+                                        
                                         if ($query_run_editados && mysqli_num_rows($query_run_editados) > 0) {
                                             while ($row_editado = mysqli_fetch_assoc($query_run_editados)) {
                                                 
                                                 $date_time = new DateTime($row_editado['fecha_modificacion']); 
-                                                $tipo_registro = ($row_editado['tabla'] == 'register2') ? 'Vehículo' : 'Mueble';
-                                                $color = ($row_editado['tabla'] == 'register2') ? 'text-success' : 'text-primary';
                                                 
-                                                // Limpia y formatea los nombres de los campos para mejor lectura
+                                                // 1. Determinar el tipo de registro y color por defecto (para EDICIONES)
+                                                $tipo_registro_original = 'Mueble';
+                                                $color = 'text-primary';
+                                                if ($row_editado['tabla'] == 'register3') {
+                                                    $tipo_registro_original = 'Inmueble';
+                                                    $color = 'text-info'; // Color de Inmueble (Azul Claro)
+                                                } elseif ($row_editado['tabla'] == 'register2') {
+                                                    $tipo_registro_original = 'Vehículo';
+                                                    $color = 'text-success'; // Color de Vehículo (Verde)
+                                                }
+
+                                                // 2. Comprobar si es una eliminación
+                                                // Se asume que en una eliminación, 'Registro Completo' es uno de los campos modificados
+                                                $es_eliminado = strpos($row_editado['campos_modificados'], 'Registro Completo') !== false;
+
+                                                // 3. Limpiar y formatear los nombres de los campos
                                                 $campos_formateados = str_replace(['_', '`', ' administrativa'], [' ', '', ' Administrativa'], $row_editado['campos_modificados']);
+
+                                                // 4. Establecer variables de visualización
+                                                $tipo_registro_display = $tipo_registro_original;
+                                                $descripcion_display = htmlspecialchars(substr($row_editado['descripcion_bien'], 0, 35)) . (strlen($row_editado['descripcion_bien']) > 35 ? '...' : ''); 
+                                                $campos_display = 'Campos: ' . htmlspecialchars($campos_formateados);
+
+                                                // 5. SOBRESCRIBIR si es una ELIMINACIÓN
+                                                if ($es_eliminado) {
+                                                    $tipo_registro_display = '💥 ELIMINADO';
+                                                    $color = 'text-danger'; // Resaltar en rojo
+                                                    $descripcion_display = $tipo_registro_original . ' (ID ' . htmlspecialchars($row_editado['registro_id']) . '): ' . htmlspecialchars($row_editado['descripcion_bien']);
+                                                    $campos_display = 'Borrado Permanentemente.'; 
+                                                }
+
 
                                                 echo '<li class="list-group-item p-1 border-0 d-flex justify-content-between align-items-start">';
                                                 echo '<div>';
-                                                echo '<strong class="' . $color . '">' . $tipo_registro . ' (ID ' . htmlspecialchars($row_editado['registro_id']) . '):</strong> ';
-                                                // Muestra los primeros 35 caracteres de la descripción
-                                                echo htmlspecialchars(substr($row_editado['descripcion_bien'], 0, 35)) . (strlen($row_editado['descripcion_bien']) > 35 ? '...' : ''); 
-                                                echo '<br><small class="text-secondary">Campos: ' . htmlspecialchars($campos_formateados) . '</small>';
+                                                echo '<strong class="' . $color . '">' . $tipo_registro_display . '</strong> ';
+                                                // Muestra la descripción completa o el ID y tipo para eliminaciones
+                                                echo '<span class="text-secondary"> ' . $descripcion_display . '</span>'; 
+                                                echo '<br><small class="text-secondary">' . $campos_display . '</small>';
                                                 echo '</div>';
                                                 echo '<span class="text-muted small ml-2">' . $date_time->format('d/m H:i') . '</span>';
                                                 echo '</li>';
                                             }
                                         } else {
-                                            // Este mensaje se muestra si la consulta fue OK pero no encontró filas.
-                                            echo '<li class="list-group-item p-1 border-0 text-muted">Aún no hay registros editados en el log. Por favor, edita un artículo en el inventario para generar un registro de auditoría.</li>';
+                                            echo '<li class="list-group-item p-1 border-0 text-muted">Aún no hay registros editados o eliminados en el log.</li>';
                                         }
                                         ?>
                                     </ul>
@@ -307,7 +329,7 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                 labels: chartLabels,
                 datasets: [{
                     data: chartData,
-                    // Colores para Info, Primary y Success (orden de etiquetas: Usuarios, Muebles, Vehículos)
+                    // Colores para Info, Primary y Success (orden de etiquetas: Inmuebles, Muebles, Vehículos)
                     backgroundColor: ['#36b9cc', '#4e73df', '#1cc88a'], 
                     hoverBackgroundColor: ['#2c9faf', '#2e59d9', '#17a673'],
                     hoverBorderColor: "rgba(234, 236, 244, 1)",

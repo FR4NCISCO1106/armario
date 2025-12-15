@@ -168,18 +168,37 @@ if(isset($_POST['updatebtn']))
 }
 
 // =========================================================================
-// LÓGICA DE BORRADO (DELETE) y LOGIN (se mantienen)
+// LÓGICA DE BORRADO (DELETE) - CON REGISTRO DE AUDITORÍA
 // =========================================================================
 
 if(isset($_POST['delete_btn']))
 {
     $id = mysqli_real_escape_string($connection, $_POST['delete_id']);
-    
-    $query = "DELETE FROM register WHERE id='$id'";
+    $tabla = 'register'; // Tabla de Muebles
+
+    // PASO 1: Obtener la descripción ANTES de borrar para el log
+    $fetch_query = "SELECT `descripcion` FROM $tabla WHERE id='$id' LIMIT 1";
+    $fetch_run = mysqli_query($connection, $fetch_query);
+    $item_data = mysqli_fetch_assoc($fetch_run);
+    $descripcion_bien = mysqli_real_escape_string($connection, $item_data['descripcion'] ?? 'Registro ID ' . $id);
+    $current_datetime = date('Y-m-d H:i:s'); 
+
+    // PASO 2: Ejecutar el borrado
+    $query = "DELETE FROM $tabla WHERE id='$id'";
     $query_run = mysqli_query($connection, $query);
 
     if($query_run)
     {
+        // **INSERCIÓN DE LOG DE BORRADO**
+        // Insertar el registro de auditoría en log_ediciones
+        // Usamos valores especiales: campo_modificado = 'Registro Completo' y valor_nuevo = 'ELIMINADO'
+        $log_query = "INSERT INTO log_ediciones 
+                    (tabla, registro_id, descripcion_bien, campo_modificado, valor_anterior, valor_nuevo, fecha_modificacion) 
+                    VALUES 
+                    ('$tabla', '$id', '$descripcion_bien', 'Registro Completo', 'ID $id', 'ELIMINADO', '$current_datetime')";
+        mysqli_query($connection, $log_query);
+        // *******************************
+        
         $_SESSION['delete_success'] = "El registro con ID *{$id}* ha sido eliminado.";
         header('Location: register.php');
     }
@@ -222,5 +241,5 @@ if(isset($_POST['login_btn']))
             header('Location: login.php');
         }
     }
-    }
-    ?>
+}
+?>

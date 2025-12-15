@@ -8,14 +8,14 @@ include('includes/navbar.php');
 
 
 <div class="container-fluid">
-  <br>
-  <br>
+    <br>
+    <br>
     <h1 class="h3 mb-2 text-gray-800">📜 Registro Completo de Auditoría</h1>
-    <p class="mb-4">Este listado muestra todos los cambios realizados a los registros de Muebles y Vehículos, detallando el campo modificado y su valor anterior y nuevo.</p>
+    <p class="mb-4">Este listado muestra todos los cambios realizados a los registros de Muebles, Vehículos e Inmuebles, incluyendo eliminaciones, detallando el campo modificado y su valor anterior y nuevo.</p>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Historial de Ediciones</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Historial de Ediciones y Eliminaciones</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -44,6 +44,7 @@ include('includes/navbar.php');
                     </tfoot>
                     <tbody>
                         <?php
+                        // Asegúrate de que tu tabla de auditoría se llame 'log_ediciones'
                         $query = "SELECT * FROM log_ediciones ORDER BY fecha_modificacion DESC";
                         $query_run = mysqli_query($connection, $query);
                         
@@ -56,28 +57,56 @@ include('includes/navbar.php');
                         {
                             while ($row = mysqli_fetch_assoc($query_run)) 
                             {
-                                // Determinar tipo y color para la fila
-                                $tipo_registro = ($row['tabla'] == 'register2') ? '<span class="badge badge-success">Vehículo</span>' : '<span class="badge badge-primary">Mueble</span>';
+                                $tabla = $row['tabla'];
+                                $row_class = ''; // Inicializar la clase de la fila
+                                $campo_modificado_display = htmlspecialchars($row['campo_modificado']);
+                                $valor_anterior_display = htmlspecialchars($row['valor_anterior']);
+                                $valor_nuevo_display = htmlspecialchars($row['valor_nuevo']);
+                                $valor_anterior_class = 'text-danger';
+                                $valor_nuevo_class = 'text-success';
+                                
+                                // Lógica para identificar el tipo de registro (Inmueble, Vehículo, Mueble) **CORREGIDO**
+                                // Muebles (register) - Primary
+                                $tipo_registro = '<span class="badge badge-primary">Mueble</span>'; 
+                                
+                                if ($tabla == 'register3') {
+                                    // Inmueble (register3) - Info (Azul claro, para coincidir con el dashboard)
+                                    $tipo_registro = '<span class="badge badge-info">Inmueble</span>';
+                                } elseif ($tabla == 'register2') {
+                                    // Vehículo (register2) - Success (Verde, para coincidir con el dashboard)
+                                    $tipo_registro = '<span class="badge badge-success">Vehículo</span>';
+                                }
+
+                                // Lógica para resaltar la Eliminación **CORREGIDO**
+                                if (strtoupper($valor_nuevo_display) === 'ELIMINADO' && $campo_modificado_display === 'Registro Completo') {
+                                    $row_class = 'table-danger'; // Resaltar en rojo claro
+                                    $campo_modificado_display = '💥 Registro ELIMINADO';
+                                    $valor_anterior_display = 'ID ' . htmlspecialchars($row['registro_id']);
+                                    $valor_nuevo_display = 'BORRADO PERMANENTE';
+                                    $valor_anterior_class = 'text-secondary';
+                                    $valor_nuevo_class = 'text-danger font-weight-bold';
+                                } else {
+                                    // Formatear el nombre del campo para mejor lectura
+                                    $campo_modificado_display = ucwords(str_replace(['_', '`'], [' ', ''], $row['campo_modificado']));
+                                }
                                 
                                 // Formatear la fecha
                                 $date_time = new DateTime($row['fecha_modificacion']); 
                                 $fecha_formateada = $date_time->format('d/m/Y H:i:s');
                                 
-                                // Formatear el nombre del campo para mejor lectura
-                                $campo_formateado = str_replace(['_', '`', ' administrativa'], [' ', '', ' Administrativa'], $row['campo_modificado']);
 
-                                echo '<tr>';
+                                echo '<tr class="' . $row_class . '">';
                                 echo '<td>' . htmlspecialchars($fecha_formateada) . '</td>';
                                 echo '<td>' . $tipo_registro . '</td>';
                                 echo '<td>' . htmlspecialchars($row['registro_id']) . '</td>';
                                 echo '<td>' . htmlspecialchars($row['descripcion_bien']) . '</td>';
-                                echo '<td><strong>' . htmlspecialchars($campo_formateado) . '</strong></td>';
-                                echo '<td class="text-danger">' . htmlspecialchars($row['valor_anterior']) . '</td>'; // El valor viejo en rojo
-                                echo '<td class="text-success">' . htmlspecialchars($row['valor_nuevo']) . '</td>';   // El valor nuevo en verde
+                                echo '<td><strong>' . htmlspecialchars($campo_modificado_display) . '</strong></td>';
+                                echo '<td class="' . $valor_anterior_class . '">' . htmlspecialchars($valor_anterior_display) . '</td>'; 
+                                echo '<td class="' . $valor_nuevo_class . '">' . htmlspecialchars($valor_nuevo_display) . '</td>';
                                 echo '</tr>';
                             }
                         } 
-                        else if ($query_run) // Solo si la consulta se ejecutó sin error pero no devolvió filas
+                        else if ($query_run)
                         {
                             echo "<tr><td colspan='7' class='text-center text-muted'>No hay registros de ediciones en el historial.</td></tr>";
                         }

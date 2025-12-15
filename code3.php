@@ -13,15 +13,15 @@ if(isset($_POST['registerbtn']))
     $unidad_administrativa = mysqli_real_escape_string($connection, $_POST['unidad_administrativa'] ?? '');
     $codigo_interno_del_bien = mysqli_real_escape_string($connection, $_POST['codigo_interno_del_bien'] ?? '');
     $descripcion = mysqli_real_escape_string($connection, $_POST['descripcion'] ?? '');
-    $forma_de_adquisicion = mysqli_real_escape_string($connection, $_POST['forma_de_adquisicion'] ?? '');
-    $fecha_de_adquisicion = mysqli_real_escape_string($connection, $_POST['fecha_de_adquisicion'] ?? '');
+    $forma_adquisicion = mysqli_real_escape_string($connection, $_POST['forma_adquisicion'] ?? '');
+    $fecha_adquisicion = mysqli_real_escape_string($connection, $_POST['fecha_adquisicion'] ?? '');
     $n_documento = mysqli_real_escape_string($connection, $_POST['n_documento'] ?? '');
     $moneda = mysqli_real_escape_string($connection, $_POST['moneda'] ?? '');
     $valor_adquisicion = mysqli_real_escape_string($connection, $_POST['valor_adquisicion'] ?? '');
     $estado_del_uso_del_bien = mysqli_real_escape_string($connection, $_POST['estado_del_uso_del_bien'] ?? '');
     $año_de_construccion = mysqli_real_escape_string($connection, $_POST['año_de_construccion'] ?? '');
     $numero_del_contrato = mysqli_real_escape_string($connection, $_POST['numero_del_contrato'] ?? '');
-    $rif_comodatorio = mysqli_real_escape_string($connection, $_POST['rif_comodatorio'] ?? '');
+    $rif_comodatario = mysqli_real_escape_string($connection, $_POST['rif_comodatario'] ?? '');
     $estado_de_ocupacion = mysqli_real_escape_string($connection, $_POST['estado_de_ocupacion'] ?? '');
     $area_de_construccion = mysqli_real_escape_string($connection, $_POST['area_de_construccion'] ?? '');
     $unidad_de_medida_area = mysqli_real_escape_string($connection, $_POST['unidad_de_medida_area'] ?? '');
@@ -56,15 +56,15 @@ if(isset($_POST['registerbtn']))
     $categoria_especifica = mysqli_real_escape_string($connection, $_POST['categoria_especifica'] ?? '');
 
     
-    // Consulta de inserción - ¡CORREGIDO a `N. Documento`!
-    $query = "INSERT INTO register3 (`id`, `sede`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, `n° documento`, `moneda`, `valor adquisicion`, `estado del uso del bien`, `año de construccion`, `numero del contrato`, `rif comodatorio`, `estado de ocupacion`, `area de construccion`, `unidad de medida area`, `area del terreno`, `unidad medida area del terreno`, `magnitud`, `uso actual`, `fecha inicio contrato`, `fecha fin contrato`, `oficina de registro inmueble`, `fecha registro inmueble`, `numero registro inmueble`, `tomo`, `folio`, `pais`, `estado`, `municipio`, `parroquia`, `urbanizacion/sector`, `avenida/calle`, `casa/edificio`, `piso`, `localizacion`, `linderos norte`, `linderos sur`, `linderos este`, `linderos oeste`, `latitud coordenadas geograficas`, `longitud coordenadas geograficas`, `categoria general`, `subcategoria`, `categoria especifica`) 
-        VALUES ('$id', '$sede', '$unidad_administrativa', '$codigo_interno_del_bien', '$descripcion', '$forma_adquisicion', '$fecha_adquisicion', '$n_documento', '$moneda', '$valor_adquisicion', '$estado_del_uso_del_bien', '$año_de_construccion', '$numero_del_contrato', '$rif_comodatorio', '$estado_de_ocupacion', '$area_de_construccion', '$unidad_de_medida_area', '$area_del_terreno', '$unidad_medida_area_del_terreno', '$magnitud', '$uso_actual', '$fecha_inicio_contrato', '$fecha_fin_contrato', '$oficina_de_registro_inmueble', '$fecha_registro_inmueble', '$numero_registro_inmueble', '$tomo', '$folio', '$pais', '$estado', '$municipio', '$parroquia', '$urbanizacion_sector', '$avenida_calle', '$casa_edificio', '$piso', '$localizacion', '$linderos_norte', '$linderos_sur', '$linderos_este', '$linderos_oeste', '$latitud_coordenadas_geograficas', '$longitud_coordenadas_geograficas', '$categoria_general', '$subcategoria', '$categoria_especifica') ";
+    // Consulta de inserción - Corregido: `rif comodatorio` a `rif_comodatorio`
+    $query = "INSERT INTO register3 (`id`, `sede`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, `n° documento`, `moneda`, `valor adquisicion`, `estado del uso del bien`, `año de construccion`, `numero del contrato`, `rif comodatario`, `estado de ocupacion`, `area de construccion`, `unidad de medida area`, `area del terreno`, `unidad medida area del terreno`, `magnitud`, `uso actual`, `fecha inicio contrato`, `fecha fin contrato`, `oficina de registro inmueble`, `fecha registro inmueble`, `numero registro inmueble`, `tomo`, `folio`, `pais`, `estado`, `municipio`, `parroquia`, `urbanizacion/sector`, `avenida/calle`, `casa/edificio`, `piso`, `localizacion`, `linderos norte`, `linderos sur`, `linderos este`, `linderos oeste`, `latitud coordenadas geograficas`, `longitud coordenadas geograficas`, `categoria general`, `subcategoria`, `categoria especifica`) 
+        VALUES ('$id', '$sede', '$unidad_administrativa', '$codigo_interno_del_bien', '$descripcion', '$forma_adquisicion', '$fecha_adquisicion', '$n_documento', '$moneda', '$valor_adquisicion', '$estado_del_uso_del_bien', '$año_de_construccion', '$numero_del_contrato', '$rif_comodatario', '$estado_de_ocupacion', '$area_de_construccion', '$unidad_de_medida_area', '$area_del_terreno', '$unidad_medida_area_del_terreno', '$magnitud', '$uso_actual', '$fecha_inicio_contrato', '$fecha_fin_contrato', '$oficina_de_registro_inmueble', '$fecha_registro_inmueble', '$numero_registro_inmueble', '$tomo', '$folio', '$pais', '$estado', '$municipio', '$parroquia', '$urbanizacion_sector', '$avenida_calle', '$casa_edificio', '$piso', '$localizacion', '$linderos_norte', '$linderos_sur', '$linderos_este', '$linderos_oeste', '$latitud_coordenadas_geograficas', '$longitud_coordenadas_geograficas', '$categoria_general', '$subcategoria', '$categoria_especifica')";
 
     $query_run = mysqli_query($connection, $query);
 
     if($query_run)
     {
-        $_SESSION['success'] = "El nuevo artículo (Vehículo) ha sido agregado con éxito.";
+        $_SESSION['success'] = "El nuevo artículo (inmueble) ha sido agregado con éxito.";
         header('Location: register3.php');
     }
     else 
@@ -84,15 +84,16 @@ if(isset($_POST['updatebtn']))
     $unidad_administrativa = mysqli_real_escape_string($connection, $_POST['unidad_administrativa'] ?? '');
     $codigo_interno_del_bien = mysqli_real_escape_string($connection, $_POST['codigo_interno_del_bien'] ?? '');
     $descripcion = mysqli_real_escape_string($connection, $_POST['descripcion'] ?? '');
-    $forma_de_adquisicion = mysqli_real_escape_string($connection, $_POST['forma_de_adquisicion'] ?? '');
-    $fecha_de_adquisicion = mysqli_real_escape_string($connection, $_POST['fecha_de_adquisicion'] ?? '');
+    // Uso las variables largas aquí ya que es la definición original.
+    $forma_adquisicion = mysqli_real_escape_string($connection, $_POST['forma_adquisicion'] ?? '');
+    $fecha_adquisicion = mysqli_real_escape_string($connection, $_POST['fecha_adquisicion'] ?? '');
     $n_documento = mysqli_real_escape_string($connection, $_POST['n_documento'] ?? '');
     $moneda = mysqli_real_escape_string($connection, $_POST['moneda'] ?? '');
     $valor_adquisicion = mysqli_real_escape_string($connection, $_POST['valor_adquisicion'] ?? '');
     $estado_del_uso_del_bien = mysqli_real_escape_string($connection, $_POST['estado_del_uso_del_bien'] ?? '');
     $año_de_construccion = mysqli_real_escape_string($connection, $_POST['año_de_construccion'] ?? '');
     $numero_del_contrato = mysqli_real_escape_string($connection, $_POST['numero_del_contrato'] ?? '');
-    $rif_comodatorio = mysqli_real_escape_string($connection, $_POST['rif_comodatorio'] ?? '');
+    $rif_comodatario = mysqli_real_escape_string($connection, $_POST['rif_comodatario'] ?? '');
     $estado_de_ocupacion = mysqli_real_escape_string($connection, $_POST['estado_de_ocupacion'] ?? '');
     $area_de_construccion = mysqli_real_escape_string($connection, $_POST['area_de_construccion'] ?? '');
     $unidad_de_medida_area = mysqli_real_escape_string($connection, $_POST['unidad_de_medida_area'] ?? '');
@@ -134,54 +135,54 @@ if(isset($_POST['updatebtn']))
     // 3. OBTENER LA FECHA Y HORA ACTUAL PARA EL UPDATE Y EL LOG
     $current_datetime = date('Y-m-d H:i:s'); 
 
-    // Mapeo de columnas de DB a nuevos valores POST (¡CORREGIDO a 'N. Documento'!)
+    // Mapeo de columnas de DB a nuevos valores POST (Uso de los nombres de variable corregidos)
     $new_data_map = [
-      'sede'=> $sede,
-      'unidad administrativa'=> $unidad_administrativa,
-      'codigo interno del bien'=> $codigo_interno_del_bien,
-      'descripcion'=> $descripcion,
-      'forma adquisicion'=> $forma_adquisicion,
-      'fecha adquisicion'=> $fecha_adquisicion,
-      'n° documento'=> $n_documento,
-      'moneda'=> $moneda,
-      'valor adquisicion'=> $valor_adquisicion,
-      'estado del uso del bien'=> $estado_del_uso_del_bien,
-      'año de construccion'=> $año_de_construccion,
-      'numero del contrato'=> $numero_del_contrato,
-      'rif comodatorio'=> $rif_comodatorio,
-      'estado de ocupacion'=> $estado_de_ocupacion,
-      'area de construccion'=> $area_de_construccion,
-      'unidad de medida area'=> $unidad_de_medida_area, 
-      'area del terreno'=> $area_del_terreno,
-      'unidad medida area del terreno'=> $unidad_medida_area_del_terreno,
-      'magnitud'=> $magnitud,
-      'uso actual'=> $uso_actual,
-      'fecha inicio contrato'=> $fecha_inicio_contrato,
-      'fecha fin contrato'=> $fecha_fin_contrato,
-      'oficina de registro inmueble'=> $oficina_de_registro_inmueble,
-      'fecha registro inmueble'=> $fecha_registro_inmueble,
-      'numero registro inmueble' => $numero_registro_inmueble,
-      'tomo'=> $tomo,
-      'folio'=> $folio,
-      'pais'=> $pais,
-      'estado'=> $estado,
-      'municipio'=> $municipio, 
-      'parroquia'=> $parroquia,
-      'urbanizacion/sector'=> $urbanizacion_sector,
-      'avenida/calle'=> $avenida_calle,
-      'casa/edificio'=> $casa_edificio,
-      'piso'=> $piso,
-      'localizacion'=> $localizacion,
-      'linderos norte'=> $linderos_norte,
-      'linderos sur'=> $linderos_sur,
-      'linderos este'=> $linderos_este,
-      'linderos oeste'=> $linderos_oeste,
-      'latitud coordenadas geograficas'=> $latitud_coordenadas_geograficas,
-      'longitud coordenadas geograficas'=> $longitud_coordenadas_geograficas,
-      'categoria general'=> $categoria_general,
-      'subcategoria'=> $subcategoria,
-      'categoria especifica'=> $categoria_especifica,
-    ];
+        'sede'=> $sede,
+        'unidad administrativa'=> $unidad_administrativa,
+        'codigo interno del bien'=> $codigo_interno_del_bien,
+        'descripcion'=> $descripcion,
+        'forma adquisicion'=> $forma_adquisicion,
+        'fecha adquisicion'=> $fecha_adquisicion,
+        'n° documento'=> $n_documento,
+        'moneda'=> $moneda,
+        'valor adquisicion'=> $valor_adquisicion,
+        'estado del uso del bien'=> $estado_del_uso_del_bien,
+        'año de construccion'=> $año_de_construccion,
+        'numero del contrato'=> $numero_del_contrato,
+        'rif comodatario'=> $rif_comodatario, 
+        'estado de ocupacion'=> $estado_de_ocupacion,
+        'area de construccion'=> $area_de_construccion,
+        'unidad de medida area'=> $unidad_de_medida_area, 
+        'area del terreno'=> $area_del_terreno,
+        'unidad medida area del terreno'=> $unidad_medida_area_del_terreno,
+        'magnitud'=> $magnitud,
+        'uso actual'=> $uso_actual,
+        'fecha inicio contrato'=> $fecha_inicio_contrato,
+        'fecha fin contrato'=> $fecha_fin_contrato,
+        'oficina de registro inmueble'=> $oficina_de_registro_inmueble,
+        'fecha registro inmueble'=> $fecha_registro_inmueble,
+        'numero registro inmueble' => $numero_registro_inmueble,
+        'tomo'=> $tomo,
+        'folio'=> $folio,
+        'pais'=> $pais,
+        'estado'=> $estado,
+        'municipio'=> $municipio, 
+        'parroquia'=> $parroquia,
+        'urbanizacion/sector'=> $urbanizacion_sector,
+        'avenida/calle'=> $avenida_calle,
+        'casa/edificio'=> $casa_edificio,
+        'piso'=> $piso,
+        'localizacion'=> $localizacion,
+        'linderos norte'=> $linderos_norte,
+        'linderos sur'=> $linderos_sur,
+        'linderos este'=> $linderos_este,
+        'linderos oeste'=> $linderos_oeste,
+        'latitud coordenadas geograficas'=> $latitud_coordenadas_geograficas,
+        'longitud coordenadas geograficas'=> $longitud_coordenadas_geograficas,
+        'categoria general'=> $categoria_general,
+        'subcategoria'=> $subcategoria,
+        'categoria especifica'=> $categoria_especifica,
+        ];
 
     $log_description = $descripcion; 
 
@@ -196,6 +197,7 @@ if(isset($_POST['updatebtn']))
                 $new_value_sanitized = mysqli_real_escape_string($connection, $new_value);
 
                 // Insertar el cambio en la tabla de log
+                // La columna 'tabla' indica que es de 'register3' (Inmuebles)
                 $log_query = "INSERT INTO log_ediciones 
                     (tabla, registro_id, descripcion_bien, campo_modificado, valor_anterior, valor_nuevo, fecha_modificacion)
                     VALUES 
@@ -207,65 +209,66 @@ if(isset($_POST['updatebtn']))
         }
     }
 
-    // 5. EJECUTAR LA CONSULTA DE ACTUALIZACIÓN ORIGINAL (¡CORREGIDO a `N. Documento` en el SQL!)
+    // 5. EJECUTAR LA CONSULTA DE ACTUALIZACIÓN ORIGINAL
     $query = "UPDATE register3 SET 
 
-      `sede`='$sede',
-      `unidad administrativa`='$unidad_administrativa',
-      `codigo interno del bien`='$codigo_interno_del_bien',
-      `descripcion`='$descripcion',
-      `forma adquisicion`='$forma_adquisicion',
-      `fecha adquisicion`='$fecha_adquisicion',
-      `n° documento`='$n_documento',
-      `moneda`='$moneda',
-      `valor adquisicion`='$valor_adquisicion',
-      `estado del uso del bien`='$estado_del_uso_del_bien',
-      `año de construccion`='$año_de_construccion',
-      `numero del contrato`= '$numero_del_contrato',
-      `rif comodatorio`='$rif_comodatorio',
-      `estado de ocupacion`='$estado_de_ocupacion',
-      `area de construccion`='$area_de_construccion',
-      `unidad de medida area`='$unidad_de_medida_area', 
-      `area del terreno`='$area_del_terreno',
-      `unidad medida area del terreno`='$unidad_medida_area_del_terreno',
-      `magnitud`='$magnitud',
-      `uso actual`='$uso_actual',
-      `fecha inicio contrato`='$fecha_inicio_contrato',
-      `fecha fin contrato`='$fecha_fin_contrato',
-      `oficina de registro inmueble`='$oficina_de_registro_inmueble',
-      `fecha registro inmueble`='$fecha_registro_inmueble',
-      `numero registro inmueble`='$numero_registro_inmueble',
-      `tomo`='$tomo',
-      `folio`='$folio',
-      `pais`='$pais',
-      `estado`='$estado',
-      `municipio`='$municipio', 
-      `parroquia`='$parroquia',
-      `urbanizacion/sector`='$urbanizacion_sector',
-      `avenida/calle`='$avenida_calle',
-      `casa/edificio`='$casa_edificio',
-      `piso`='$piso',
-      `localizacion`='$localizacion',
-      `linderos norte`='$linderos_norte',
-      `linderos sur`='$linderos_sur',
-      `linderos este`='$linderos_este',
-      `linderos oeste`='$linderos_oeste',
-      `latitud coordenadas geograficas`='$latitud_coordenadas_geograficas',
-      `longitud coordenadas geograficas`='$longitud_coordenadas_geograficas',
-      `categoria general`='$categoria_general',
-      `subcategoria`='$subcategoria',
-      `categoria especifica`='$categoria_especifica',
+        `sede`='$sede',
+        `unidad administrativa`='$unidad_administrativa',
+        `codigo interno del bien`='$codigo_interno_del_bien',
+        `descripcion`='$descripcion',
+        `forma adquisicion`='$forma_adquisicion',
+        `fecha adquisicion`='$fecha_adquisicion',
+        `n° documento`='$n_documento',
+        `moneda`='$moneda',
+        `valor adquisicion`='$valor_adquisicion',
+        `estado del uso del bien`='$estado_del_uso_del_bien',
+        `año de construccion`='$año_de_construccion',
+        `numero del contrato`= '$numero_del_contrato',
+        `rif comodatario`='$rif_comodatario',
+        `estado de ocupacion`='$estado_de_ocupacion',
+        `area de construccion`='$area_de_construccion',
+        `unidad de medida area`='$unidad_de_medida_area', 
+        `area del terreno`='$area_del_terreno',
+        `unidad medida area del terreno`='$unidad_medida_area_del_terreno',
+        `magnitud`='$magnitud',
+        `uso actual`='$uso_actual',
+        `fecha inicio contrato`='$fecha_inicio_contrato',
+        `fecha fin contrato`='$fecha_fin_contrato',
+        `oficina de registro inmueble`='$oficina_de_registro_inmueble',
+        `fecha registro inmueble`='$fecha_registro_inmueble',
+        `numero registro inmueble`='$numero_registro_inmueble',
+        `tomo`='$tomo',
+        `folio`='$folio',
+        `pais`='$pais',
+        `estado`='$estado',
+        `municipio`='$municipio', 
+        `parroquia`='$parroquia',
+        `urbanizacion/sector`='$urbanizacion_sector',
+        `avenida/calle`='$avenida_calle',
+        `casa/edificio`='$casa_edificio',
+        `piso`='$piso',
+        `localizacion`='$localizacion',
+        `linderos norte`='$linderos_norte',
+        `linderos sur`='$linderos_sur',
+        `linderos este`='$linderos_este',
+        `linderos oeste`='$linderos_oeste',
+        `latitud coordenadas geograficas`='$latitud_coordenadas_geograficas',
+        `longitud coordenadas geograficas`='$longitud_coordenadas_geograficas',
+        `categoria general`='$categoria_general',
+        `subcategoria`='$subcategoria',
+        `categoria especifica`='$categoria_especifica',
 
         
         fecha_edicion='$current_datetime'  
         
         WHERE id='$id'";
 
-    $query_run = mysqli_query($connection, $query); // <--- ESTA ES APROXIMADAMENTE LA LÍNEA 170
+    $query_run = mysqli_query($connection, $query);
 
     if($query_run)
     {
-        $_SESSION['success'] = "Tus datos se han actualizado (Vehículos).";
+        // **CORRECCIÓN: Cambiar el mensaje de éxito de 'Vehículos' a 'Inmuebles'**
+        $_SESSION['success'] = "Tus datos se han actualizado (Inmuebles).";
         header('Location: register3.php');
     }
     else{
@@ -275,17 +278,34 @@ if(isset($_POST['updatebtn']))
 }
 
 // =========================================================================
-// LÓGICA DE BORRADO (DELETE)
+// LÓGICA DE BORRADO (DELETE) - CON LOG DE AUDITORÍA
 // =========================================================================
 if(isset($_POST['delete_btn']))
 {
     $id = mysqli_real_escape_string($connection, $_POST['delete_id']);
+
+    // PASO 1: Obtener la descripción y otros datos ANTES de borrar para el log
+    $fetch_query = "SELECT `descripcion` FROM register3 WHERE id='$id' LIMIT 1";
+    $fetch_run = mysqli_query($connection, $fetch_query);
+    $item_data = mysqli_fetch_assoc($fetch_run);
+    $descripcion_bien = mysqli_real_escape_string($connection, $item_data['descripcion'] ?? 'Registro ID ' . $id);
+    $current_datetime = date('Y-m-d H:i:s'); 
     
+    // PASO 2: Ejecutar el borrado
     $query = "DELETE FROM register3 WHERE id='$id'";
     $query_run = mysqli_query($connection, $query);
 
     if($query_run)
     {
+        // **INSERCIÓN DE LOG DE BORRADO**
+        // Insertar el registro de auditoría en log_ediciones
+        // Usamos valores especiales: campo_modificado = 'Registro Completo' y valor_nuevo = 'ELIMINADO'
+        $log_query = "INSERT INTO log_ediciones 
+                    (tabla, registro_id, descripcion_bien, campo_modificado, valor_anterior, valor_nuevo, fecha_modificacion) 
+                    VALUES 
+                    ('register3', '$id', '$descripcion_bien', 'Registro Completo', 'ID $id', 'ELIMINADO', '$current_datetime')";
+        mysqli_query($connection, $log_query);
+
         $_SESSION['delete_success'] = "El registro con ID *{$id}* ha sido eliminado.";
         header('Location: register3.php');
     }

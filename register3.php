@@ -1,4 +1,4 @@
-        <?php
+<?php
         include('security.php');
 
         include('includes/header.php');
@@ -400,7 +400,7 @@
                     <th>Estado del uso del bien</th>
                     <th>Año de consrtucción</th>
                     <th>Numero del contrato</th>
-                    <th>rif comodatorio</th>
+                    <th>rif comodatario</th>
                     <th>Estado de ocupación</th>
                     <th>Area de Construcción</th>
                     <th>Unidad de medida area</th>
@@ -433,6 +433,7 @@
                     <th>Categoria general</th>
                     <th>Subcategoria</th>
                     <th>Categoria especifica</th>
+                    <th>Fecha Edición</th> 
                     <th>EDITAR</th>
                     <th>BORRAR</th>
                 </tr>
@@ -461,15 +462,15 @@
                 <td><?php echo $row['unidad administrativa']; ?></td>
                 <td><?php echo $row['codigo interno del bien']; ?></td>
                 <td><?php echo $row['descripcion']; ?></td>
-                <td><?php echo $row['forma de adquisicion']; ?></td>
-                <td><?php echo $row['fecha de adquisicion']; ?></td>
+                <td><?php echo $row['forma adquisicion']; ?></td>
+                <td><?php echo $row['fecha adquisicion']; ?></td>
                 <td><?php echo $row['n° documento']; ?></td>
                 <td><?php echo $row['moneda']; ?></td>
                 <td><?php echo $row['valor adquisicion']; ?></td>
                 <td><?php echo $row['estado del uso del bien']; ?></td>
                 <td><?php echo $row['año de construccion']; ?></td>
                 <td><?php echo $row['numero del contrato']; ?></td>
-                <td><?php echo $row['rif comodatorio']; ?></td>
+                <td><?php echo $row['rif comodatario']; ?></td>
                 <td><?php echo $row['estado de ocupacion']; ?></td>
                 <td><?php echo $row['area de construccion']; ?></td>
                 <td><?php echo $row['unidad de medida area']; ?></td>
@@ -503,8 +504,7 @@
                 <td><?php echo $row['subcategoria']; ?></td>
                 <td><?php echo $row['categoria especifica']; ?></td>
                 
-                
-        <td>
+                <td>
             <?php 
                 if (!empty($row['fecha_edicion'])) {
                     // **CAMBIAR ESTA LÍNEA** para incluir AM/PM
@@ -514,8 +514,7 @@
                 }
             ?>
         </td>
-
-                    <td>
+        <td>
                         <form action="register_edit3.php" method="post">
                             <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
                             <button type="submit" name="edit_btn" class="btn btn-success btn-sm"><i class="fas fa-edit"></i>EDITAR</button>
