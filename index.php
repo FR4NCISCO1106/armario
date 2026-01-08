@@ -189,7 +189,7 @@ $query_run_editados = mysqli_query($connection, $query_ultimos_editados);
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-user fa-3x text-gray-500"></i>
+                                            <i class="fas fa-building fa-3x text-gray-500"></i>
                                         </div>
                                     </div>
                                 </div>

@@ -158,7 +158,7 @@ if(isset($_POST['updatebtn']))
 
     if($query_run)
     {
-        $_SESSION['success'] = "Tus datos se han actualizado (Muebles/Inmuebles).";
+        $_SESSION['success'] = "Tus datos se han actualizado (Muebles).";
         header('Location: register.php');
     }
     else{

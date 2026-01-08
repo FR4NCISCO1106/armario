@@ -319,7 +319,7 @@
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             
                 <h6 class="m-0 font-weight-bold text-success flex-shrink-0 d-flex align-items-center">
-                <button type="button" class="btn btn-info mr-2" onclick="generarPDF('reporte inventario vehiculo')"> 
+                <button type="button" class="btn btn-info mr-2" onclick="generarPDF('reporte inventario inmueble')"> 
                     <i class="fas fa-file-pdf mr-1"></i> Generar Reporte
                 </button>
                     
