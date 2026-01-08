@@ -71,6 +71,29 @@ include('security.php');
                                     <label>Descripción</label>
                                     <textarea name="descripcion" class="form-control" placeholder="Descripción del artículo" required><?php echo htmlspecialchars($row['descripcion']);?></textarea>
                                 </div>
+
+                                <h5 class="mt-4 mb-3 text-success">Clasificación</h5>
+
+                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                                    <label>Categoria general</label>
+                                    <select name="categoria_general" class="form-control" required>
+                                        <option value="">Seleccionar categoría general...</option>
+                                        <option value="Mobiliario" <?php if(isset($row['categoria general']) && $row['categoria general'] == 'Mobiliario') echo 'selected'; ?>>Mobiliario</option>
+                                        <option value="Equipo IT" <?php if(isset($row['categoria general']) && $row['categoria general'] == 'Equipo IT') echo 'selected'; ?>>Equipo IT</option>
+                                        <option value="Vehículo" <?php if(isset($row['categoria general']) && $row['categoria general'] == 'Vehículo') echo 'selected'; ?>>Vehículo</option>
+                                        <option value="Inmueble" <?php if(isset($row['categoria general']) && $row['categoria general'] == 'Inmueble') echo 'selected'; ?>>Inmueble</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                                    <label>Subcategoria</label>
+                                    <input type="text" name="subcategoria" class="form-control" placeholder="Subcategoría" value="<?php echo htmlspecialchars($row['subcategoria']);?>" required>
+                                </div>
+                                
+                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
+                                    <label>Categoria especifica</label>
+                                    <input type="text" name="categoria_especifica" class="form-control" placeholder="Categoría específica" value="<?php echo htmlspecialchars($row['categoria especifica']);?>" required>
+                                </div>
                                 
                                 <h5 class="mt-4 mb-3 text-success">Detalles de Adquisición</h5>
 
@@ -118,8 +141,8 @@ include('security.php');
                                         <option value="Baja" <?php if(isset($row['estado del uso del bien']) && $row['estado del uso del bien'] == 'Baja') echo 'selected'; ?>>En proceso de baja</option>
                                     </select>
                                 </div>
-                                
-                                <h5 class="mt-4 mb-3 text-warning">Detalles del Inmueble</h5>
+
+                                <h5 class="mt-4 mb-3- text-warning">Detalles del Inmueble (I)</h5>
 
                                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                                     <label>Año de construcción</label>
@@ -170,6 +193,11 @@ include('security.php');
                                     <label>Uso actual</label>
                                     <input type="text" name="uso_actual" class="form-control" placeholder="Uso Actual (ej: Oficinas)" value="<?php echo htmlspecialchars($row['uso actual'] ?? '');?>" required>
                                 </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                
+                                <h5 class="mb-3 text-warning">Detalles del Inmueble (II)</h5>
 
                                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                                     <label>Fecha inicio contrato</label>
@@ -195,7 +223,7 @@ include('security.php');
                                     <label>Número registro inmueble</label>
                                     <input type="text" name="numero_registro_inmueble" class="form-control" placeholder="Número de Registro" value="<?php echo htmlspecialchars($row['numero registro inmueble'] ?? '');?>" required>
                                 </div>
-
+                                
                                 <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
                                     <label>Tomo</label>
                                     <input type="text" name="tomo" class="form-control" placeholder="Tomo" value="<?php echo htmlspecialchars($row['tomo'] ?? '');?>" required>
@@ -281,37 +309,13 @@ include('security.php');
                                     <input type="text" name="longitud_coordenadas_geograficas" class="form-control" placeholder="Longitud" value="<?php echo htmlspecialchars($row['longitud coordenadas geograficas'] ?? '');?>" required>
                                 </div>
                                 
-                                </div>
-
-                            <div class="col-md-6">
-                                <h5 class="mb-3 text-success">Clasificación</h5>
-
-                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
-                                    <label>Categoria general</label>
-                                    <select name="categoria_general" class="form-control" required>
-                                        <option value="">Seleccionar categoría general...</option>
-                                        <option value="Mobiliario" <?php if(isset($row['categoria general']) && $row['categoria general'] == 'Mobiliario') echo 'selected'; ?>>Mobiliario</option>
-                                        <option value="Equipo IT" <?php if(isset($row['categoria general']) && $row['categoria general'] == 'Equipo IT') echo 'selected'; ?>>Equipo IT</option>
-                                        <option value="Vehículo" <?php if(isset($row['categoria general']) && $row['categoria general'] == 'Vehículo') echo 'selected'; ?>>Vehículo</option>
-                                        <option value="Inmueble" <?php if(isset($row['categoria general']) && $row['categoria general'] == 'Inmueble') echo 'selected'; ?>>Inmueble</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
-                                    <label>Subcategoria</label>
-                                    <input type="text" name="subcategoria" class="form-control" placeholder="Subcategoría" value="<?php echo htmlspecialchars($row['subcategoria']);?>" required>
-                                </div>
-                                
-                                <div class="form-group mb-3 p-2 bg-white rounded shadow-sm border border-light">
-                                    <label>Categoria especifica</label>
-                                    <input type="text" name="categoria_especifica" class="form-control" placeholder="Categoría específica" value="<?php echo htmlspecialchars($row['categoria especifica']);?>" required>
-                                </div>
-
-                                </div>
+                            </div>
                         </div>
                         
-                        <a href="register3.php" class="btn btn-danger mt-3"> Cancelar </a>
-                        <button type="submit" name="updatebtn" class="btn btn-primary mt-3"> Actualizar </button>
+                        <div class="mt-3">
+                            <a href="register3.php" class="btn btn-danger"> Cancelar </a>
+                            <button type="submit" name="updatebtn" class="btn btn-primary"> Actualizar </button>
+                        </div>
                     
                         </form>
                         <?php
