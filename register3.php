@@ -374,11 +374,18 @@
             <?php
                 $query = "SELECT * FROM register3";
 
-                // INICIO: Lógica de Búsqueda
+                // INICIO: Lógica de Búsqueda CORREGIDA
                 if(isset($_GET['search_query']) && !empty($_GET['search_query'])) {
                     $search = mysqli_real_escape_string($connection, $_GET['search_query']);
-                    // Consulta para buscar en campos relevantes
-                    $query .= " WHERE `id` LIKE '%$search%' OR `unidad administrativa` LIKE '%$search%' OR `codigo interno del bien` LIKE '%$search%' OR `descripcion` LIKE '%$search%' OR `marca` LIKE '%$search%' OR `modelo` LIKE '%$search%' OR `placas` LIKE '%$search%' OR `estado del uso del bien` LIKE '%$search%' OR `condicion fisica` LIKE '%$search%'";
+                    // Se eliminaron las columnas inexistentes 'modelo' y 'placas' que causaban el error
+                    $query .= " WHERE `id` LIKE '%$search%' 
+                                OR `unidad administrativa` LIKE '%$search%' 
+                                OR `codigo interno del bien` LIKE '%$search%' 
+                                OR `descripcion` LIKE '%$search%' 
+                                OR `moneda` LIKE '%$search%' 
+                                OR `estado del uso del bien` LIKE '%$search%'
+                                OR `sede` LIKE '%$search%'
+                                OR `categoria general` LIKE '%$search%'";
                 }
                 // FIN: Lógica de Búsqueda
 
@@ -448,7 +455,6 @@
                     $u_admin = $row['unidad administrativa'] ?? '';
                     $codigo_bien = $row['codigo interno del bien'] ?? '';
                     $descripcion = $row['descripcion'] ?? '';
-                    $condicion_fisica = $row['condicion fisica'] ?? '';
                     $valor_adquisicion = $row['valor adquisicion'] ?? '0.00';
                     $moneda = $row['moneda'] ?? '';
                     
@@ -507,7 +513,6 @@
                 <td>
             <?php 
                 if (!empty($row['fecha_edicion'])) {
-                    // **CAMBIAR ESTA LÍNEA** para incluir AM/PM
                     echo date('d/m/Y h:i A', strtotime($row['fecha_edicion'])); 
                 } else {
                     echo 'N/A';
@@ -532,7 +537,7 @@
                 } 
                 else
                 {
-                    echo "<tr><td colspan='24' class='text-center'>No se encontraron registros</td></tr>";
+                    echo "<tr><td colspan='49' class='text-center'>No se encontraron registros</td></tr>";
                 }
 
                     ?>

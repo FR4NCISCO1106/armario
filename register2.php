@@ -264,7 +264,7 @@
                 <thead class="bg-light text-secondary">
                 <tr>
                     <th>ID</th>
-                    <th>U. Administrativa</th>
+                    <th>Unidad Administrativa</th>
                     <th>Código Interno</th>
                     <th>Descripción</th>
                     <th>Forma Adquisición</th>
@@ -281,9 +281,9 @@
                     <th>Serial Carrocería</th>
                     <th>Serial Motor</th>
                     <th>Placas</th>
-                    <th>Cat. General</th>
+                    <th>Categoria General</th>
                     <th>Subcategoría</th>
-                    <th>Cat. Específica</th>
+                    <th>Categoria Específica</th>
                     <th>Sede</th>
                     <th>Fecha Edición</th>
                     <th>EDITAR</th>
