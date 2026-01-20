@@ -10,7 +10,7 @@ include('includes/navbar.php');
     <br>
     <br>
     <h1 class="h3 mb-2 text-gray-800">📜 Registro Completo de Auditoría</h1>
-    <p class="mb-4">Este listado muestra todos los cambios realizados a los registros de Muebles, Vehículos e Inmuebles, incluyendo eliminaciones, detallando el campo modificado y su valor anterior y nuevo.</p>
+    <p class="mb-4">Este listado muestra todos los cambios realizados a los registros de Muebles, Vehículos e Inmuebles, detallando quién realizó la acción y qué valores cambiaron.</p>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -28,20 +28,21 @@ include('includes/navbar.php');
                         <tr>
                             <th>Fecha/Hora</th>
                             <th>Tipo de Registro</th>
-                            <th>ID de Registro</th>
+                            <th>ID</th>
                             <th>Descripción del Bien</th>
-                            <th>Campo Modificado</th>
+                            <th>Usuario</th> <th>Campo Modificado</th>
                             <th>Valor Anterior</th>
                             <th>Valor Nuevo</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
+                        // Consulta actualizada para traer todos los campos
                         $query = "SELECT * FROM log_ediciones ORDER BY fecha_modificacion DESC";
                         $query_run = mysqli_query($connection, $query);
                         
                         if (!$query_run) {
-                            echo "<tr><td colspan='7' class='text-center text-danger'><strong>Error en la consulta SQL:</strong> " . mysqli_error($connection) . "</td></tr>";
+                            echo "<tr><td colspan='8' class='text-center text-danger'><strong>Error en la consulta SQL:</strong> " . mysqli_error($connection) . "</td></tr>";
                         }
                         
                         if ($query_run && mysqli_num_rows($query_run) > 0) 
@@ -53,10 +54,14 @@ include('includes/navbar.php');
                                 $campo_modificado_display = htmlspecialchars($row['campo_modificado']);
                                 $valor_anterior_display = htmlspecialchars($row['valor_anterior']);
                                 $valor_nuevo_display = htmlspecialchars($row['valor_nuevo']);
+                                
+                                // Manejo del usuario (si el campo está vacío en la BD)
+                                $usuario_display = !empty($row['usuario_responsable']) ? htmlspecialchars($row['usuario_responsable']) : '<i class="text-muted">No registrado</i>';
+                                
                                 $valor_anterior_class = 'text-danger';
                                 $valor_nuevo_class = 'text-success';
                                 
-                                // Lógica de etiquetas
+                                // Lógica de etiquetas de tipo de registro
                                 $tipo_registro = '<span class="badge badge-primary">Mueble</span>'; 
                                 if ($tabla == 'register3') {
                                     $tipo_registro = '<span class="badge badge-info">Inmueble</span>';
@@ -64,7 +69,7 @@ include('includes/navbar.php');
                                     $tipo_registro = '<span class="badge badge-success">Vehículo</span>';
                                 }
 
-                                // Resaltar eliminación
+                                // Lógica para resaltar eliminaciones
                                 if (strtoupper($valor_nuevo_display) === 'ELIMINADO' && $campo_modificado_display === 'Registro Completo') {
                                     $row_class = 'table-danger'; 
                                     $campo_modificado_display = '💥 Registro ELIMINADO';
@@ -73,9 +78,11 @@ include('includes/navbar.php');
                                     $valor_anterior_class = 'text-secondary';
                                     $valor_nuevo_class = 'text-danger font-weight-bold';
                                 } else {
+                                    // Formatear el nombre del campo para que sea legible
                                     $campo_modificado_display = ucwords(str_replace(['_', '`'], [' ', ''], $row['campo_modificado']));
                                 }
                                 
+                                // Formatear fecha
                                 $date_time = new DateTime($row['fecha_modificacion']); 
                                 $fecha_formateada = $date_time->format('d/m/Y H:i:s');
 
@@ -84,15 +91,16 @@ include('includes/navbar.php');
                                 echo '<td>' . $tipo_registro . '</td>';
                                 echo '<td>' . htmlspecialchars($row['registro_id']) . '</td>';
                                 echo '<td>' . htmlspecialchars($row['descripcion_bien']) . '</td>';
-                                echo '<td><strong>' . htmlspecialchars($campo_modificado_display) . '</strong></td>';
-                                echo '<td class="' . $valor_anterior_class . '">' . htmlspecialchars($valor_anterior_display) . '</td>'; 
-                                echo '<td class="' . $valor_nuevo_class . '">' . htmlspecialchars($valor_nuevo_display) . '</td>';
+                                echo '<td><strong>' . $usuario_display . '</strong></td>'; // Mostrar Usuario
+                                echo '<td>' . htmlspecialchars($campo_modificado_display) . '</td>';
+                                echo '<td class="' . $valor_anterior_class . '">' . $valor_anterior_display . '</td>'; 
+                                echo '<td class="' . $valor_nuevo_class . '">' . $valor_nuevo_display . '</td>';
                                 echo '</tr>';
                             }
                         } 
                         else if ($query_run)
                         {
-                            echo "<tr><td colspan='7' class='text-center text-muted'>No hay registros de ediciones en el historial.</td></tr>";
+                            echo "<tr><td colspan='8' class='text-center text-muted'>No hay registros de ediciones en el historial.</td></tr>";
                         }
                         ?>
                     </tbody>

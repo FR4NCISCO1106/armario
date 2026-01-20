@@ -3,49 +3,6 @@ include('security.php');
 date_default_timezone_set('America/Caracas'); // Asegura la hora correcta para el log
 
 // =========================================================================
-// LÓGICA DE REGISTRO (INSERT)
-// =========================================================================
-if(isset($_POST['registerbtn']))
-{
-    // Limpieza de datos (Asegúrate de que estas variables coincidan con tu formulario)
-    $id = mysqli_real_escape_string($connection, $_POST['id'] ?? '');
-    $unidad_administrativa = mysqli_real_escape_string($connection, $_POST['unidad_administrativa'] ?? '');
-    $codigo_interno_del_bien = mysqli_real_escape_string($connection, $_POST['codigo_interno_del_bien'] ?? '');
-    $descripcion = mysqli_real_escape_string($connection, $_POST['descripcion'] ?? '');
-    $forma_adquisicion = mysqli_real_escape_string($connection, $_POST['forma_adquisicion'] ?? '');
-    $fecha_adquisicion = mysqli_real_escape_string($connection, $_POST['fecha_adquisicion'] ?? '');
-    $n_documento = mysqli_real_escape_string($connection, $_POST['n_documento'] ?? ''); 
-    $valor_adquisicion = mysqli_real_escape_string($connection, $_POST['valor_adquisicion'] ?? '');
-    $moneda = mysqli_real_escape_string($connection, $_POST['moneda'] ?? '');
-    $estado_del_uso_del_bien = mysqli_real_escape_string($connection, $_POST['estado_del_uso_del_bien'] ?? '');
-    $condicion_fisica = mysqli_real_escape_string($connection, $_POST['condicion_fisica'] ?? ''); 
-    $marca = mysqli_real_escape_string($connection, $_POST['marca'] ?? '');
-    $modelo = mysqli_real_escape_string($connection, $_POST['modelo'] ?? '');
-    $color = mysqli_real_escape_string($connection, $_POST['color'] ?? '');
-    $categoria_general = mysqli_real_escape_string($connection, $_POST['categoria_general'] ?? '');
-    $subcategoria = mysqli_real_escape_string($connection, $_POST['subcategoria'] ?? '');
-    $categoria_especifica = mysqli_real_escape_string($connection, $_POST['categoria_especifica'] ?? '');
-    $sede = mysqli_real_escape_string($connection, $_POST['sede'] ?? '');
-    
-    // Consulta de inserción - CORREGIDO a `ubicaciondelbien`
-    $query = "INSERT INTO register (`id`, `unidad administrativa`, `codigo interno del bien`, `descripcion`, `forma adquisicion`, `fecha adquisicion`, `n° documento`, `valor adquisicion`, `moneda`, `estado del uso del bien`, `condicion fisica`, `marca`, `modelo`, `color`, `categoria general`, `subcategoria`, `categoria especifica`, `sede`) 
-        VALUES ('$id', '$unidad_administrativa', '$codigo_interno_del_bien', '$descripcion', '$forma_adquisicion', '$fecha_adquisicion', '$n_documento', '$valor_adquisicion', '$moneda', '$estado_del_uso_del_bien', '$condicion_fisica', '$marca', '$modelo', '$color', '$categoria_general', '$subcategoria', '$categoria_especifica', '$sede')";
-
-    $query_run = mysqli_query($connection, $query);
-
-    if($query_run)
-    {
-        $_SESSION['success'] = "El nuevo artículo ha sido agregado con éxito.";
-        header('Location: register.php');
-    }
-    else 
-    {
-        $_SESSION['status'] = "No se pudo agregar el artículo. Error: " . mysqli_error($connection);
-        header('Location: register.php');
-    }
-}
-
-// =========================================================================
 // LÓGICA DE ACTUALIZACIÓN (UPDATE) - CON REGISTRO DE AUDITORÍA
 // =========================================================================
 
@@ -54,7 +11,6 @@ if(isset($_POST['updatebtn']))
     // 1. Saneamiento de datos
     $id = mysqli_real_escape_string($connection, $_POST['edit_id'] ?? $_POST['id'] ?? '');
 
-    // Variables de todos los campos del formulario, limpias y listas para usar
     $unidad_administrativa = mysqli_real_escape_string($connection, $_POST['edit_unidad_administrativa'] ?? '');
     $codigo_interno_del_bien = mysqli_real_escape_string($connection, $_POST['edit_codigo_interno_del_bien'] ?? '');
     $descripcion = mysqli_real_escape_string($connection, $_POST['edit_descripcion'] ?? '');
@@ -65,13 +21,9 @@ if(isset($_POST['updatebtn']))
     $moneda = mysqli_real_escape_string($connection, $_POST['edit_moneda'] ?? '');
     $estado_del_uso_del_bien = mysqli_real_escape_string($connection, $_POST['edit_estado_del_uso_del_bien'] ?? '');
     $condicion_fisica = mysqli_real_escape_string($connection, $_POST['edit_condicion_fisica'] ?? ''); 
-    $ubicacion_del_bien = mysqli_real_escape_string($connection, $_POST['edit_ubicacion_del_bien'] ?? '');
-
-    // 🚩 CORRECCIÓN: Inicialización de variables para evitar "Undefined variable"
     $marca = mysqli_real_escape_string($connection, $_POST['edit_marca'] ?? ''); 
     $modelo = mysqli_real_escape_string($connection, $_POST['edit_modelo'] ?? ''); 
     $color = mysqli_real_escape_string($connection, $_POST['edit_color'] ?? '');
-    
     $categoria_general = mysqli_real_escape_string($connection, $_POST['edit_categoria_general'] ?? '');
     $subcategoria = mysqli_real_escape_string($connection, $_POST['edit_subcategoria'] ?? '');
     $categoria_especifica = mysqli_real_escape_string($connection, $_POST['edit_categoria_especifica'] ?? '');
@@ -82,9 +34,7 @@ if(isset($_POST['updatebtn']))
     $current_run = mysqli_query($connection, $current_query);
     $old_data = $current_run ? mysqli_fetch_assoc($current_run) : [];
 
-    // 3. OBTENER LA FECHA Y HORA ACTUAL PARA EL UPDATE Y EL LOG
     $current_datetime = date('Y-m-d H:i:s'); 
-
 
     $new_data_map = [
         'unidad administrativa' => $unidad_administrativa,
@@ -97,40 +47,37 @@ if(isset($_POST['updatebtn']))
         'moneda' => $moneda,
         'estado del uso del bien' => $estado_del_uso_del_bien,
         'condicion fisica' => $condicion_fisica,
-        'marca' => $marca, // CORREGIDO
-        'modelo' => $modelo, // CORREGIDO
-        'color' => $color, // CORREGIDO
+        'marca' => $marca,
+        'modelo' => $modelo,
+        'color' => $color,
         'categoria general' => $categoria_general,
         'subcategoria' => $subcategoria,
         'categoria especifica' => $categoria_especifica,
         'sede' => $sede,
     ];
 
-    $log_description = $descripcion; 
-
-    // 4. COMPARAR E INSERTAR REGISTROS DE AUDITORÍA
+    // 3. COMPARAR E INSERTAR REGISTROS DE AUDITORÍA
     if (!empty($old_data)) {
+        $tabla = 'register';
+        $usuario_responsable = $_SESSION['username']; // Captura el usuario de la sesión
+
         foreach ($new_data_map as $column_name => $new_value) {
-            
-            // Verifica si la columna existe en los datos viejos y si el valor cambió
             if (isset($old_data[$column_name]) && $old_data[$column_name] != $new_value) {
                 
                 $old_value = mysqli_real_escape_string($connection, $old_data[$column_name]);
                 $new_value_sanitized = mysqli_real_escape_string($connection, $new_value);
 
-                // Insertar el cambio en la tabla de log
+                // Inserción corregida con las variables del loop y el usuario
                 $log_query = "INSERT INTO log_ediciones 
-                    (tabla, registro_id, descripcion_bien, campo_modificado, valor_anterior, valor_nuevo, fecha_modificacion)
-                    VALUES 
-                    ('register', '$id', '$log_description', '$column_name', '$old_value', '$new_value_sanitized', '$current_datetime')";
-                
-                // Ejecutar la inserción en el log
+                            (tabla, registro_id, descripcion_bien, usuario_responsable, campo_modificado, valor_anterior, valor_nuevo, fecha_modificacion) 
+                            VALUES 
+                            ('$tabla', '$id', '$descripcion', '$usuario_responsable', '$column_name', '$old_value', '$new_value_sanitized', '$current_datetime')";
                 mysqli_query($connection, $log_query);
             }
         }
     }
 
-    // 5. EJECUTAR LA CONSULTA DE ACTUALIZACIÓN ORIGINAL (¡Sintaxis SQL CORREGIDA!)
+    // 4. EJECUTAR LA ACTUALIZACIÓN
     $query = "UPDATE register SET 
         `unidad administrativa` = '$unidad_administrativa',
         `codigo interno del bien` = '$codigo_interno_del_bien',
@@ -149,20 +96,16 @@ if(isset($_POST['updatebtn']))
         `subcategoria` = '$subcategoria',
         `categoria especifica` = '$categoria_especifica',
         `sede` = '$sede',
-        
         fecha_edicion='$current_datetime'  
-        
         WHERE id='$id'";
 
-    $query_run = mysqli_query($connection, $query); // <--- LÍNEA 145/149 APROX.
+    $query_run = mysqli_query($connection, $query);
 
-    if($query_run)
-    {
-        $_SESSION['success'] = "Tus datos se han actualizado (Muebles).";
+    if($query_run) {
+        $_SESSION['success'] = "Datos actualizados correctamente.";
         header('Location: register.php');
-    }
-    else{
-        $_SESSION['status'] = "Tus datos no están actualizados. Error: " . mysqli_error($connection);
+    } else {
+        $_SESSION['status'] = "Error al actualizar: " . mysqli_error($connection);
         header('Location: register.php');
     }
 }
@@ -174,72 +117,29 @@ if(isset($_POST['updatebtn']))
 if(isset($_POST['delete_btn']))
 {
     $id = mysqli_real_escape_string($connection, $_POST['delete_id']);
-    $tabla = 'register'; // Tabla de Muebles
+    $tabla = 'register';
+    $usuario_responsable = $_SESSION['username']; // Captura el usuario
 
-    // PASO 1: Obtener la descripción ANTES de borrar para el log
     $fetch_query = "SELECT `descripcion` FROM $tabla WHERE id='$id' LIMIT 1";
     $fetch_run = mysqli_query($connection, $fetch_query);
     $item_data = mysqli_fetch_assoc($fetch_run);
     $descripcion_bien = mysqli_real_escape_string($connection, $item_data['descripcion'] ?? 'Registro ID ' . $id);
     $current_datetime = date('Y-m-d H:i:s'); 
 
-    // PASO 2: Ejecutar el borrado
     $query = "DELETE FROM $tabla WHERE id='$id'";
     $query_run = mysqli_query($connection, $query);
 
     if($query_run)
     {
-        // **INSERCIÓN DE LOG DE BORRADO**
-        // Insertar el registro de auditoría en log_ediciones
-        // Usamos valores especiales: campo_modificado = 'Registro Completo' y valor_nuevo = 'ELIMINADO'
+        // Registro de auditoría incluyendo al usuario
         $log_query = "INSERT INTO log_ediciones 
-                    (tabla, registro_id, descripcion_bien, campo_modificado, valor_anterior, valor_nuevo, fecha_modificacion) 
+                    (tabla, registro_id, descripcion_bien, usuario_responsable, campo_modificado, valor_anterior, valor_nuevo, fecha_modificacion) 
                     VALUES 
-                    ('$tabla', '$id', '$descripcion_bien', 'Registro Completo', 'ID $id', 'ELIMINADO', '$current_datetime')";
+                    ('$tabla', '$id', '$descripcion_bien', '$usuario_responsable', 'Registro Completo', 'ID $id', 'ELIMINADO', '$current_datetime')";
         mysqli_query($connection, $log_query);
-        // *******************************
         
-        $_SESSION['delete_success'] = "El registro con ID *{$id}* ha sido eliminado.";
+        $_SESSION['delete_success'] = "Registro eliminado con éxito.";
         header('Location: register.php');
-    }
-    else
-    {
-        $_SESSION['status'] = "Error al intentar eliminar el registro: " . mysqli_error($connection);
-        header('Location: register.php');
-    }
-}
-
-
-if(isset($_POST['login_btn']))
-{
-    $username_login = mysqli_real_escape_string($connection, $_POST['username'] ?? ''); 
-    $password_login = mysqli_real_escape_string($connection, $_POST['password'] ?? '');
-
-
-    if (empty($username_login) || empty($password_login)) {
-        $_SESSION['status'] = "Por favor, complete ambos campos (Usuario y Contraseña).";
-        header('Location: login.php');
-        exit(); 
-    }
-
-
-    $query = "SELECT * FROM users WHERE usuario='$username_login' AND contraseña='$password_login' ";
-    $query_run = mysqli_query($connection, $query);
-    
-    if($query_run) 
-    {
-        if(mysqli_num_rows($query_run) > 0)
-        {
-
-            $_SESSION['username'] = $username_login;
-            $_SESSION['success'] = "¡Bienvenido de nuevo!";
-            header('Location: index.php'); 
-        }
-        else
-        {
-            $_SESSION['status'] = "Usuario o Contraseña Inválidos";
-            header('Location: login.php');
-        }
     }
 }
 ?>
